@@ -1,0 +1,35 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *)); 
+
+@layer components {
+  .site-header {
+    @apply sticky top-0 z-50 w-full shadow-sm transition-colors duration-300;
+    background-color: var(--color-bg-1);
+    color: var(--color-text-1);
+  }
+
+  .site-header-inner {
+    @apply container mx-auto flex justify-between items-center px-4 py-2 sm:px-6 sm:py-3;
+  }
+
+  .site-header-logo {
+    @apply inline-flex items-center gap-2 font-semibold transition-transform duration-200;
+    color: var(--color-text-1);
+  }
+  .site-header-menu{
+    @apply pl-4 font-bold text-xl  sm:text-base
+  }
+
+  .site-header-logo:hover {
+    transform: scale(1.1);
+    color: var(--color-btn-1);
+  }
+  .btn-toggle {
+    @apply bg-transparent;
+    color: var(--color-text-1);
+  }
+  .btn-toggle:hover {
+    background-color: var(--color-btn-2);
+    color: #fff;
+  }
+}
