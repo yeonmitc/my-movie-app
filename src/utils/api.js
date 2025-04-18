@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // 환경변수에서 API 기본 URL을 가져오고, 없으면 로컬호스트 사용
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.themoviedb.org/3';
-const API_AUTH_TOKEN = import.meta.env.VITE_API_AUTH_TOKEN;
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 // Axios 인스턴스 생성
 const api = axios.create({
@@ -10,7 +10,7 @@ const api = axios.create({
   timeout: 10000,                    // 요청 타임아웃 (ms)
   headers: {
     Accept: 'application/json',
-    Authorization: `Bearer ${API_AUTH_TOKEN}`,
+    Authorization: `Bearer ${API_KEY}`,
   }
 });
 
