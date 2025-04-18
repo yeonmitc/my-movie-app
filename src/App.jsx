@@ -11,7 +11,7 @@ import { MovieDetailPage } from './pages/MovieDetail/MovieDetailPage'
 // 영화 디테일 페이지 /movies/:id 
 // 추천영화 /movies/:id/recommandation
 // 리뷰 /movies/:id/reviews
-
+//test
 export default function App() {
   return (
     <>
