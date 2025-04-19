@@ -7,7 +7,8 @@
     --color-bg-1: #ffffff;      /* 전체 배경 */
     --color-bg-2: #f3f3f3;      /* 카드, 섹션 */
     --color-bg-3: #e5e5e5;      /* hover/보조 */
-    --color-bg-4: #e50914;      /* 강조 */
+    --color-bg-4: #92060d;      /* 강조 */
+
   
     --color-text-1: #141414;    /* 메인 텍스트 */
     --color-text-2: #555555;    /* 서브 텍스트 */
@@ -16,8 +17,8 @@
     --color-border-1: #d1d1d1;  /* 기본 구분선 */
     --color-border-2: #e5e5e5;  /* 밝은 보조선 */
   
-    --color-btn-1: #e50914;         /* 주요 버튼 (CTA) */
-    --color-btn-1-hover: #f87171;   /* hover 시 부드러운 빨강 */
+    --color-btn-1: #a5050d;         /* 주요 버튼 (CTA) */
+    --color-btn-1-hover: #ad4015;   /* hover 시 부드러운 빨강 */
     --color-btn-2: #f3f3f3;         /* 서브 버튼 (예: 회색) */
     --color-btn-2-hover: #e5e5e5;   /* 서브 hover */
   
@@ -30,7 +31,7 @@
     --color-bg-1: #141414;      /* 전체 다크 배경 */
     --color-bg-2: #1f1f1f;      /* 카드/섹션 */
     --color-bg-3: #2a2a2a;      /* hover, 보조 */
-    --color-bg-4: #e50914;      /* 강조 빨강 */
+    --color-btn-1: #a5050d;         /* 강조 빨강 */
   
     --color-text-1: #e5e5e5;    /* 메인 텍스트 */
     --color-text-2: #999999;    /* 서브 텍스트 */

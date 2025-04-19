@@ -1,67 +1,33 @@
 import React, { useEffect, useState } from 'react'
-import { usePopularMoviesQuery } from '@/hooks/usePopularMovies'
-import { useMovieStore } from '@/store/movieStore'
-import { useFilteredMovies } from '@/hooks/useFilteredMovies'
 import toast from 'react-hot-toast'
 import './Banner.style.css'
+import { useMoviesQuery } from '@/hooks/useMovies'
+
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w1280'
 const FALLBACK_IMAGE = '/fallback.jpg'
 
 const Banner = () => {
-  const { isLoading, isError, error } = usePopularMoviesQuery()
-  const { query, allMovies } = useMovieStore()
-  const filteredMovies = useFilteredMovies()
+  const { data = [], isLoading, isError, error } = useMoviesQuery("popular");
+  const [randomMovie, setRandomMovie] = useState(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
-  const [randomMovie, setRandomMovie] = useState(null)
-  const [imageLoaded, setImageLoaded] = useState(false)
-
+  useEffect(() => {
+    if (data.length > 0) {
+      const rand = Math.floor(Math.random() * data.length);
+      setRandomMovie(data[rand]);
+    }
+  }, [data]);
 
   useEffect(() => {
     if (isError && error?.message) {
-      toast.error(`에러 발생: ${error.message}`, {
-        id: 'banner-error',
-        duration: 1500
-      })
+      toast.error(`에러 발생: ${error.message}`);
     }
-  }, [isError, error])
+  }, [isError, error]);
 
-  // ✅ 랜덤 영화 선택 (query 여부에 따라 필터 or 전체 영화)
-  useEffect(() => {
-
-    console.log("🎯 query:", query)
-    console.log("🍿 allMovies:", allMovies)
-    console.log("🔍 filteredMovies:", filteredMovies)
-
-    const source = query.trim() ? useFilteredMovies() : allMovies
-    if (source.length > 0) {
-      const rand = Math.floor(Math.random() * source.length)
-      setRandomMovie(source[rand])
-    } else {
-      setRandomMovie(null)
-    }
-  }, [query, allMovies]) 
-
-
-  if (isLoading) {
-    return (
-      <div className="loading-wrapper">
-        <div className="loading-spinner" />
-      </div>
-    )
+  if (isLoading || !randomMovie) {
+    return <div className="loading-wrapper"><div className="loading-spinner" /></div>;
   }
-
-
-  if (isError) return null
-
-  if (!randomMovie) {
-    return (
-      <div className="text-purple-500 px-4 py-6 text-center text-sm sm:text-base">
-        🎬 영화 찾는 중 ...
-      </div>
-    )
-  }
-
   const imageUrl = randomMovie.backdrop_path
     ? `${IMAGE_BASE_URL}${randomMovie.backdrop_path}`
     : FALLBACK_IMAGE
