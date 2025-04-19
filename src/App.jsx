@@ -1,7 +1,7 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import AppLayout from '@/layout/AppLayout'
-import NotFoundPage from '@/pages/NotfoundPage/NotFoundPage'
+import NotFoundPage from '@/pages/NotFoundPage/NotFoundPage'
 import MoviePage from '@/pages/Movies/MoviePage'
 import { MovieDetailPage } from './pages/MovieDetail/MovieDetailPage'
 import HomePage from './pages/Homepage/HomePage'
