@@ -6,7 +6,7 @@
     @apply relative overflow-hidden rounded-xl shadow-md cursor-pointer
            h-full min-h-[320px] max-w-[180px]
            sm:min-h-[340px] sm:max-w-[200px]
-           md:min-h-[360px] md:max-w-[220px];
+           md:min-h-[460px] md:max-w-[350px];
   }
 
   .movie-card img {
