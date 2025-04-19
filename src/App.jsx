@@ -2,11 +2,10 @@ import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import AppLayout from '@/layout/AppLayout'
 import MoviePage from '@/pages/Movies/MoviePage'
-import { MovieDetailPage } from './pages/MovieDetail/MovieDetailPage'
-import HomePage from './pages/Homepage/HomePage'
-import TestToast from './pages/TestToast'
+import { MovieDetailPage } from '@/pages/MovieDetail/MovieDetailPage' 
+import HomePage from '@/pages/HomePage/HomePage'                     
+import TestToast from '@/pages/TestToast'
 import NotFoundPage from '@/pages/NotFoundPage/NotFoundPage'
-
 
 // 홈페이지  / 
 // 영화 전체보여주는 페이지 (서치)  /movies?q=ssdfa
