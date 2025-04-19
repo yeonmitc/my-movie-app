@@ -3,7 +3,8 @@ import React, { useEffect, useMemo } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import useThemeStore from '@/store/themeStore'
-
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import ToastManager from '@/common/components/ToastManager'; 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: { refetchOnWindowFocus: false, retry: 1 },
@@ -41,6 +42,8 @@ export default function AppProvider({ children }) {
 
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>{children}</BrowserRouter>
+        <ToastManager />
+        <ReactQueryDevtools initialIsOpen={false} buttonPosition='bottom-right' />
       </QueryClientProvider>
   )
 }

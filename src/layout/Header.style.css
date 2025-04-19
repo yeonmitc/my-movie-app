@@ -1,0 +1,84 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *)); 
+
+@layer components {
+  /* 사이트 헤더 */
+  .site-header {
+    @apply sticky top-0 z-50 w-full shadow-sm transition-colors duration-300;
+    background-color: var(--color-bg-1);
+    color: var(--color-text-1);
+    position: relative;
+  }
+
+  .site-header-inner {
+    @apply container mx-auto flex justify-between items-center px-4 py-2 sm:px-6 sm:py-3;
+  }
+
+  /* 검색창 입력 필드 */
+  .search-input {
+    @apply w-full rounded-md px-4 py-2 text-sm sm:text-base
+      focus:outline-none focus:ring-2 focus:ring-red-500
+      placeholder-gray-400 dark:placeholder-gray-500
+      transition-all duration-200;
+    
+    /* 라이트모드/다크모드에 맞는 배경색 설정 */
+    background-color: var(--color-bg-2);
+    color: var(--color-text-1);
+    border: 1px solid var(--color-border-1);
+    
+    
+
+  }
+
+  /* 모바일용 검색창 */
+  .search-mobile-wrapper {
+    @apply md:hidden absolute shadow-md pt-1;
+    animation: fade-in-down 0.3s ease-out;
+    background-color: var(--color-bg-1); 
+    opacity: 0.9;
+    width: 100%; 
+
+  }
+
+  /* 검색 버튼 */
+  .search-btn {
+    @apply rounded-md transition-all duration-200 mt-1 ;
+    display: block;
+    color: var(--color-text-1);
+    background-color: var(--color-btn-2);
+
+    
+  }
+
+  /* 검색 버튼 hover & active 상태 */
+  .search-btn:hover,
+  .search-btn:active {
+    background-color: var(--color-btn-1); 
+    color: var(--color-text-3);
+
+  }
+
+  .site-header-logo {
+    @apply inline-flex items-center gap-2 font-semibold transition-transform duration-200;
+    color: var(--color-text-1);
+  }
+
+  .site-header-menu {
+    @apply pl-4 font-bold text-xl sm:text-base;
+  }
+
+  .site-header-logo:hover {
+    transform: scale(1.1);
+    color: var(--color-btn-1);
+  }
+
+  .btn-toggle {
+    @apply bg-transparent;
+    color: var(--color-text-1);
+  }
+
+  .btn-toggle:hover {
+    background-color: var(--color-btn-2);
+    color: #fff;
+  }
+}
