@@ -1,5 +1,5 @@
 // src/AppProvider.jsx
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import useThemeStore from '@/store/themeStore'
