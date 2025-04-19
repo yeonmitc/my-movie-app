@@ -23,7 +23,6 @@ export default function Header() {
   }
 
   const SearchInput = (
-    <>
       <input
         type="text"
         placeholder="영화 제목을 검색하세요"
@@ -33,14 +32,6 @@ export default function Header() {
         className="search-input"
         aria-label="검색어 입력"
       />
-      <button
-        onClick={handleSearch}
-        className="btn btn-animated px-4 py-2 text-sm"
-        aria-label="검색 버튼"
-      >
-        <SearchIcon fontSize="medium" />
-      </button>
-    </>
   )
 
   return (
@@ -52,7 +43,17 @@ export default function Header() {
 
         <div className="flex items-center gap-2 sm:gap-4">
           {/* ✅ 데스크탑용 검색창 */}
-          <div className="hidden md:flex items-center gap-2">{SearchInput}</div>
+          <div className="hidden md:flex items-center gap-2">
+            {SearchInput}
+                  <button
+              onClick={handleSearch}
+              className="btn btn-animated px-4 py-2 text-sm"
+              aria-label="검색 버튼"
+            >
+                         <SearchIcon fontSize="medium" />
+            </button>
+
+          </div>
 
           {/* ✅ 모바일용 토글 버튼 */}
           <button
@@ -71,6 +72,14 @@ export default function Header() {
       {showSearch && (
         <div className="search-mobile-wrapper">
           {SearchInput}
+          <button
+        onClick={handleSearch}
+        aria-label="검색 버튼"
+        className="btn btn-animated w-full search-btn "
+      >
+        Search
+      </button>
+          
         </div>
       )}
     </header>

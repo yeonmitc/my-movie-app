@@ -1,0 +1,53 @@
+name: Deploy and Case Check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  case-sensitive-check:
+    name: 🔎 Case-sensitive File Path Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Find Duplicate Filenames (Case-Insensitive)
+        run: |
+          git ls-files > all.txt
+          lowercased=$(git ls-files | tr '[:upper:]' '[:lower:]' | sort)
+          duplicated=$(echo "$lowercased" | uniq -d)
+          if [[ "$duplicated" != "" ]]; then
+            echo "❌ Case-sensitive path conflict found:"
+            echo "$duplicated"
+            exit 1
+          fi
+
+  build:
+    name: 🔧 Build Project
+    runs-on: ubuntu-latest
+    needs: case-sensitive-check
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm run build
