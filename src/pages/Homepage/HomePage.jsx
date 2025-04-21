@@ -2,6 +2,7 @@
 import React from 'react' 
 import Banner from '@/pages/HomePage/components/Banner/Banner';
 import MovieSlider from './components/MovieSlider/MovieSlider';
+import MovieSlider from '@/pages/HomePage/components/MovieSlider/MovieSlider';
 
 export default function HomePage() {
 
