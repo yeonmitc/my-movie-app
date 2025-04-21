@@ -5,7 +5,7 @@ import { useMoviesQuery } from '@/hooks/useMovies'
 
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w1280'
-const FALLBACK_IMAGE = '/fallback.jpg'
+const DEFAULT_IMAGE = '/default-banner.png';
 
 const Banner = () => {
   const { data = [], isLoading, isError, error } = useMoviesQuery("popular");
@@ -30,18 +30,28 @@ const Banner = () => {
   }
   const imageUrl = randomMovie.backdrop_path
     ? `${IMAGE_BASE_URL}${randomMovie.backdrop_path}`
-    : FALLBACK_IMAGE
+    : DEFAULT_IMAGE;
 
   return (
-    <section className="banner-section">
+    <section
+    className="banner-section"
+    style={{
+      backgroundImage: `url(${imageLoaded ? imageUrl : DEFAULT_IMAGE})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      transition: 'background-image 0.5s ease-in-out',
+    }}
+  >
+    {/*backgroundImage는 onLoad 이벤트를 지원하지 않음 그래서 따로하는것  */}
+    {randomMovie && (
       <img
         src={imageUrl}
         alt={randomMovie.title}
         onLoad={() => setImageLoaded(true)}
-        onError={(e) => (e.target.src = FALLBACK_IMAGE)}
-        className={`banner-image absolute inset-0 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+        onError={(e) => (e.target.src = DEFAULT_IMAGE)}
+        style={{ display: 'none' }}
       />
-
+    )}
       <div className="banner-overlay">
         <h1 className="banner-title">
           {randomMovie.title || randomMovie.original_title}

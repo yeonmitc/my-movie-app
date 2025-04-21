@@ -1,26 +1,30 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "@/utils/api";
 
-// API 별 fetcher
 const validTypes = ["popular", "top_rated", "upcoming"];
 
-const fetchMovies = (type) => {
+const fetchMovies = async (type) => {
   if (!validTypes.includes(type)) {
     throw new Error(`❌ Invalid movie type: ${type}`);
   }
 
-  return api
-    .get(`/movie/${type}`)
-    .then((res) => res.data.results);
+  const res = await api.get(`/movie/${type}`);
+  return res.data.results;
 };
 
-// 통합 훅
-export const useMoviesQuery = (type) =>
-  useQuery({
+
+export const useMoviesQuery = (type) => {
+  const queryClient = useQueryClient();
+
+  const initialDataFromCache = queryClient.getQueryData(["movies", type]);
+
+  return useQuery({
     queryKey: ["movies", type],
     queryFn: () => fetchMovies(type),
+    initialData: initialDataFromCache, // ✅ 캐시 초기값 사용
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 10,
     refetchOnWindowFocus: false,
     keepPreviousData: true,
   });
+};

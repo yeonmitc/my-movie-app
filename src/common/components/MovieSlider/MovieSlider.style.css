@@ -1,0 +1,24 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer components {
+
+
+  .movie-slider-section {
+    @apply px-4 sm:px-6 py-4;
+    background-color: var(--color-bg-1);
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .movie-slider-title {
+    @apply text-xl sm:text-2xl font-bold mb-4;
+    color: var(--color-text-1);
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+  .carousel-item-spacing {
+    @apply px-1 sm:px-1.5 md:px-2; 
+  }
+  
+
+  }
