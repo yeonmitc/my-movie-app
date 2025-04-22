@@ -60,10 +60,11 @@
   }
 
   .badge {
-    @apply text-xs px-2 py-1 rounded bg-[var(--color-bg-4)] text-white font-semibold whitespace-nowrap;
+    @apply inline-block rounded bg-[var(--color-bg-4)] px-3 py-1 text-sm font-semibold text-white text-center;
   }
 
   .badge-row {
-    @apply w-full sm:w-[48%] flex items-center gap-2;
+    @apply w-[48%] flex flex-col items-center text-center gap-1 sm:flex-row sm:items-center sm:gap-2;
   }
+
 }
