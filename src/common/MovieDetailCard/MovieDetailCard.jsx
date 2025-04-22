@@ -27,7 +27,8 @@ const MovieDetailCard = ({ movie }) => {
     poster_path,
   } = movie;
 
-  const imageUrl = poster_path ? `${IMAGE_BASE_URL}${poster_path}` : DEFAULT_IMAGE;
+  const imageUrl = movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}`
+: DEFAULT_IMAGE;
   const releaseYear = release_date ? release_date.slice(0, 4) : '개봉일 없음';
   const isAdult = movie.adult === true || movie.adult === 'true';
 
@@ -38,7 +39,11 @@ const MovieDetailCard = ({ movie }) => {
           src={imageUrl}
           alt={title}
           className="movie-detail-image"
-          onError={(e) => (e.target.src = DEFAULT_IMAGE)}
+          onError={(e) => {
+            if (!e.target.src.includes(DEFAULT_IMAGE)) {
+              e.target.src = DEFAULT_IMAGE;
+            }
+          }}
         />
 
         <img

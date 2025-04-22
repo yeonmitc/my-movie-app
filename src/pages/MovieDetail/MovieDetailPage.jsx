@@ -9,12 +9,30 @@ import { useMovieDetailQuery } from '@/hooks/useMovieDetail';
 import { useMovieVideosQuery } from '@/hooks/useMovieVideos';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+const DEFAULT_IMAGE = '/default-movie.jpg';
 
 const MovieDetailPage = () => {
   const { id } = useParams();
   const { openModal } = useVideoModalStore();
   const { data: movie, isLoading, isError, error } = useMovieDetailQuery(id);
   const { data: videos } = useMovieVideosQuery(id);
+
+  if (isLoading) {
+    return (
+      <div className="loading-wrapper">
+        <div className="loading-spinner" />
+      </div>
+    );
+  }
+
+  if (isError || !movie) {
+    toast.error(`영화 정보를 불러오지 못했습니다: ${error?.message || 'Unknown error'}`);
+    return null;
+  }
+
+  const imageUrl = movie.poster_path
+    ? `${IMAGE_BASE_URL}${movie.poster_path}`
+    : DEFAULT_IMAGE;
 
   const trailer = videos?.find(
     (video) => video.site === 'YouTube' && video.type === 'Trailer'
@@ -28,28 +46,18 @@ const MovieDetailPage = () => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="loading-wrapper">
-        <div className="loading-spinner" />
-      </div>
-    );
-  }
-
-  if (isError) {
-    toast.error(`영화 정보를 불러오지 못했습니다: ${error?.message}`);
-    return null;
-  }
-
   return (
     <div className="movie-detail-layout">
       <div className="movie-detail-wrapper">
-        {/* ✅ 포스터 및 오버레이 */}
+        {/* ✅ 포스터 */}
         <div className="movie-poster-container group relative">
           <img
-            src={`${IMAGE_BASE_URL}${movie.poster_path}`}
+            src={imageUrl}
             alt={movie.title}
             className="movie-poster"
+            onError={(e) => {
+              e.currentTarget.src = DEFAULT_IMAGE;
+            }}
           />
           <div
             className="movie-poster-overlay group-hover:opacity-100"
@@ -76,12 +84,14 @@ const MovieDetailPage = () => {
           <div className="movie-stats">
             {movie.vote_average > 0 && (
               <span className="flex items-center gap-1">
-                <AiFillStar className='text-yellow-500' /> {movie.vote_average}
+                <AiFillStar className="text-yellow-500" />
+                {movie.vote_average}
               </span>
             )}
             {movie.vote_count > 0 && (
               <span className="flex items-center gap-1">
-                <FaUsers className='text-yellow-500'/> {movie.vote_count.toLocaleString()}
+                <FaUsers className="text-yellow-500" />
+                {movie.vote_count.toLocaleString()}
               </span>
             )}
             <span

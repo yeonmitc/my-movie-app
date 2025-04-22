@@ -17,7 +17,8 @@ const MovieCard = ({ movie }) => {
   const genreMap = useGenreStore((state) => state.genreMap);
   const title = movie.title || movie.original_title || '제목 없음';
   const rating = movie.vote_average ?? 0;
-  const imageUrl = movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}` : DEFAULT_IMAGE;
+  const imageUrl = movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}`
+: DEFAULT_IMAGE;
 
   //console.log('movie.adult=', movie.adult);
   const isAdult = movie.adult === true || movie.adult === 'true';
