@@ -4,7 +4,7 @@ const ToastManager = () => {
     <Toaster
       position="top-center"
       toastOptions={{
-        duration: 1500,
+        duration: 600,
         style: {
           padding: '16px 20px',
           borderRadius: '12px',
