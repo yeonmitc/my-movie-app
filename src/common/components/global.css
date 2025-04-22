@@ -88,6 +88,69 @@
   h3 {
     @apply mt-4 mb-2 text-xl font-semibold;
   }
+  h4 {
+    @apply mt-4 mb-2 text-lg font-medium;
+  }
+  h5 {
+    @apply mt-4 mb-2 text-base font-medium;
+  }
+  h6 {
+    @apply mt-4 mb-2 text-sm font-medium;
+  }
+
+  a {
+    font-weight: 500;
+    color: var(--color-btn-1);
+  }
+  a:hover {
+    color: var(--color-btn-1-hover);
+  }
+
+  ul {
+    @apply mb-4 list-disc pl-5;
+  }
+  li {
+    @apply mb-1;
+  }
+
+  input,
+  textarea {
+    @apply w-full rounded-md px-3 py-2 focus:ring-2 focus:outline-none;
+    background-color: var(--color-bg-2);
+    color: var(--color-text-1);
+    border: 1px solid var(--color-border-1);
+    --tw-ring-color: var(--color-btn-1);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-placeholder);
+  }
+
+  textarea {
+    @apply min-h-[120px] resize-y;
+  }
+
+  table {
+    @apply mt-4 w-full border-collapse;
+  }
+
+  th {
+    @apply px-4 py-2 text-left text-sm font-semibold;
+    background-color: var(--color-bg-2);
+    border-bottom: 1px solid var(--color-border-1);
+  }
+
+  td {
+    @apply px-4 py-2 text-sm;
+    border-bottom: 1px solid var(--color-border-2);
+  }
+
+  button {
+    @apply cursor-pointer rounded px-4 py-2 transition-colors duration-200;
+    background-color: var(--color-btn-1);
+    color: #ffffff;
+  }
 }
 
 /* ✅ 애니메이션 및 유틸리티 등록 */
@@ -110,6 +173,43 @@
 
 /* ✅ 컴포넌트 */
 @layer components {
+  .btn {
+    @apply transform rounded px-4 py-2 transition-all duration-300;
+    color: var(--color-text-1);
+  }
+  .btn:hover {
+    background-color: var(--color-bg-2);
+  }
+
+  .btn-animated {
+    @apply transition-transform duration-200 hover:scale-110 active:scale-95;
+  }
+
+  .btn-explore {
+    @apply px-6 py-3;
+    background-color: var(--color-btn-1);
+    color: #fff;
+  }
+  .btn-explore:hover {
+    background-color: var(--color-text-1);
+  }
+  .dark .btn-explore:hover {
+    background-color: var(--color-btn-2-hover); /* 다크 모드 전용 hover 배경 */
+  }
+
+  .btn-back {
+    border: 1px solid var(--color-border-1);
+    color: var(--color-text-1);
+  }
+
+  .loading-wrapper {
+    @apply flex h-[300px] w-full items-center justify-center bg-gray-100 sm:h-[400px] md:h-[500px] dark:bg-gray-800;
+  }
+
+  .loading-spinner {
+    @apply h-15 w-15 animate-spin rounded-full border-4 border-red-500 border-t-transparent sm:h-18 sm:w-18 md:h-22 md:w-22;
+  }
+
   .top-btn {
     @apply fixed right-6 bottom-6 z-50 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[var(--color-btn-1)] text-[3rem] text-white shadow-[0_10px_25px_rgba(0,0,0,0.5)] transition-all duration-300;
 
