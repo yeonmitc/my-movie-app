@@ -56,7 +56,7 @@
   }
 
   .movie-info {
-    @apply w-full flex flex-wrap justify-center gap-x-4 gap-y-2 border-t border-[var(--color-border-2)] pt-4;
+    @apply w-full flex flex-wrap justify-between gap-y-2 border-t border-[var(--color-border-2)] pt-4;
   }
 
   .badge {
@@ -64,7 +64,7 @@
   }
 
   .badge-row {
-    @apply w-[48%] flex flex-col items-center text-center gap-1 sm:flex-row sm:items-center sm:gap-2;
+    @apply w-[48%] min-w-[140px] flex flex-col items-center text-center gap-1 sm:flex-row sm:items-center sm:gap-2;
   }
 
 }
