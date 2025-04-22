@@ -22,7 +22,7 @@ export default function AppProvider({ children }) {
         {children}
       </BrowserRouter>
       <ToastManager />
-      <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-right" />
+      <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
     </QueryClientProvider>
   );
 }

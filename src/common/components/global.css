@@ -17,7 +17,7 @@
     --color-border-2: #e5e5e5; /* 밝은 보조선 */
 
     --color-btn-1: #a5050d; /* 주요 버튼 (CTA) */
-    --color-btn-1-hover: #ad4015; /* hover 시 부드러운 빨강 */
+    --color-btn-1-hover: #cf3b00; /* hover 시 부드러운 빨강 */
     --color-btn-2: #f3f3f3; /* 서브 버튼 (예: 회색) */
     --color-btn-2-hover: #e5e5e5; /* 서브 hover */
 
@@ -156,6 +156,40 @@
     color: #ffffff;
   }
 }
+@layer utilities {
+  @keyframes slide-in-top {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-in-down {
+    0% {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slide-in {
+    0% {
+      transform: translateY(100px) scale(0.9);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+  }
+}
 
 @layer components {
   .btn {
@@ -197,25 +231,22 @@
     @apply h-15 w-15 animate-spin rounded-full border-4 border-red-500 border-t-transparent sm:h-18 sm:w-18 md:h-22 md:w-22;
   }
 
-  @keyframes slide-in-top {
-    0% {
-      transform: translateY(-100%);
-      opacity: 0;
-    }
-    100% {
-      transform: translateY(0);
-      opacity: 1;
-    }
+  .animate-slide-in {
+    animation: slide-in 0.5s ease-out forwards;
+  }
+  .top-btn {
+    @apply animate-slide-in fixed right-6 bottom-6 z-50 flex h-[80px] w-[80px] items-center justify-center rounded-full bg-[var(--color-btn-1)] text-[3rem] text-white shadow-[0_10px_25px_rgba(0,0,0,0.5)] transition-all duration-300;
+
+    @apply sm:right-5 sm:bottom-5 sm:h-[70px] sm:w-[70px] sm:text-[2.5rem];
+    @apply md:right-4 md:bottom-4 md:h-[60px] md:w-[60px] md:text-[2rem];
   }
 
-  @keyframes fade-in-down {
-    0% {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .dark .top-btn {
+    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+  }
+
+  .top-btn:hover {
+    background-color: var(--color-btn-1-hover);
+    transform: scale(1.05);
   }
 }

@@ -53,4 +53,24 @@
   .movie-error {
     @apply bg-[var(--color-bg-1)] py-10 text-center text-lg;
   }
+
+  .pagination-container {
+    @apply mt-4 flex flex-wrap items-center justify-center gap-2;
+  }
+
+  .pagination-page {
+    @apply cursor-pointer rounded-md border border-[var(--color-border-1)] bg-[var(--color-bg-2)] px-2 py-1 text-sm text-[var(--color-text-1)] hover:bg-[var(--color-bg-3)];
+  }
+
+  .pagination-active {
+    @apply border-[var(--color-btn-1)] bg-[var(--color-btn-1)] text-white;
+  }
+
+  .pagination-arrow {
+    @apply cursor-pointer px-2 py-1 text-xl font-bold text-[var(--color-text-1)] transition-transform hover:scale-110;
+  }
+
+  .pagination-break {
+    @apply px-2 text-[var(--color-text-2)];
+  }
 }

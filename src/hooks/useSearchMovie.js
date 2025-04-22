@@ -1,17 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 import api from '@/utils/api';
 
-const fetchSearchMovie = async ({ keyword }) => {
-  const res = await api.get(`/search/movie?query=${keyword}`);
-  console.log('🎯 fetchSearchMovie keyword:', keyword);
-  console.log('📦 fetchSearchMovie data:', res.data.results);
+const fetchSearchMovie = async ({ keyword, page = 1 }) => {
+  const res = await api.get(`/search/movie`, {
+    params: {
+      query: keyword,
+      page,
+    },
+  });
   return res.data.results;
 };
 
-export const useSearchMovieQuery = ({ keyword, enabled }) => {
+export const useSearchMovieQuery = ({ keyword, page = 1, enabled }) => {
   return useQuery({
-    queryKey: ['movie-search', keyword],
-    queryFn: () => fetchSearchMovie({ keyword }), // ✅ keyword 객체로 넘겨야 구조분해 가능주의!!
+    queryKey: ['movie-search', keyword, page],
+    queryFn: () => fetchSearchMovie({ keyword, page }),
     enabled,
     staleTime: 1000 * 60 * 3,
     gcTime: 1000 * 60 * 10,
