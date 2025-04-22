@@ -3,7 +3,6 @@ import './MovieDetail.Page.style.css';
 import { useParams } from 'react-router-dom';
 import { AiFillStar } from 'react-icons/ai';
 import { FaUsers } from 'react-icons/fa';
-import { useGenreStore } from '@/store/genreStore';
 import { useVideoModalStore } from '@/store/videoModalStore';
 import toast from 'react-hot-toast';
 import { useMovieDetailQuery } from '@/hooks/useMovieDetail';
@@ -17,7 +16,6 @@ const MovieDetailPage = () => {
   const { data: movie, isLoading, isError, error } = useMovieDetailQuery(id);
   const { data: videos } = useMovieVideosQuery(id);
 
-  // 예고편 영상이 있는지 확인
   const trailer = videos?.find(
     (video) => video.site === 'YouTube' && video.type === 'Trailer'
   );
@@ -56,13 +54,13 @@ const MovieDetailPage = () => {
           <div
             className="movie-poster-overlay group-hover:opacity-100"
             onClick={handleWatchTrailer}
-            onTouchStart={handleWatchTrailer} // 모바일 대응
+            onTouchStart={handleWatchTrailer}
           >
             <span className="text-5xl text-white">▶</span>
           </div>
         </div>
 
-        {/* ✅ 텍스트 정보 */}
+        {/* ✅ 정보 */}
         <div className="movie-info-container">
           <div className="movie-genres">
             {movie.genres?.map((g) => (
@@ -77,13 +75,13 @@ const MovieDetailPage = () => {
 
           <div className="movie-stats">
             {movie.vote_average > 0 && (
-              <span className="flex items-center gap-1 ">
-                <AiFillStar className="text-yellow-500" /> {movie.vote_average}
+              <span className="flex items-center gap-1">
+                <AiFillStar className='text-yellow-500' /> {movie.vote_average}
               </span>
             )}
             {movie.vote_count > 0 && (
-              <span className="flex items-center gap-1 ">
-                <FaUsers className="text-yellow-500" /> {movie.vote_count.toLocaleString()}
+              <span className="flex items-center gap-1">
+                <FaUsers className='text-yellow-500'/> {movie.vote_count.toLocaleString()}
               </span>
             )}
             <span
