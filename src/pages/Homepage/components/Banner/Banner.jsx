@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import './Banner.style.css';
+
 import { useMoviesQuery } from '@/hooks/useMovies';
+import { useVideoModalStore } from '@/store/videoModalStore';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w1280';
 const DEFAULT_IMAGE = '/default-banner.png';
@@ -10,6 +12,8 @@ const Banner = () => {
   const { data = [], isLoading, isError, error } = useMoviesQuery('popular');
   const [randomMovie, setRandomMovie] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  const { openModal } = useVideoModalStore(); // 모달 추가
 
   useEffect(() => {
     if (data.length > 0) {
@@ -41,7 +45,7 @@ const Banner = () => {
       style={{
         backgroundImage: `url(${imageLoaded ? imageUrl : DEFAULT_IMAGE})`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: 'top',
         transition: 'background-image 0.5s ease-in-out',
       }}
     >
@@ -59,7 +63,13 @@ const Banner = () => {
         <h1 className="banner-title">{randomMovie.title || randomMovie.original_title}</h1>
         <p className="banner-overview">{randomMovie.overview}</p>
         <div className="banner-buttons">
-          <button className="btn btn-animated btn-explore">Watch Now</button>
+          <button
+            className="btn btn-animated btn-explore"
+            onClick={() => openModal(randomMovie.id)}
+          >
+            {' '}
+            🎬 Watch Now
+          </button>
         </div>
       </div>
     </section>

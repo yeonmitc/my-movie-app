@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useMoviesQuery } from '@/hooks/useMovies';
 import { useSearchMovieQuery } from '@/hooks/useSearchMovie';
-import { useDiscoverMovieQuery } from '@/hooks/useDiscoverMovieQuery';
+import { useDiscoverMovieQuery } from '@/hooks/useDiscoverMovie';
 import { useGenreStore } from '@/store/genreStore';
 import ReactPaginate from 'react-paginate';
 import toast from 'react-hot-toast';
@@ -117,7 +117,8 @@ const MoviePage = () => {
   }, [searchParams.toString()]);
 
   useEffect(() => {
-    if (isSearchActive && searchedMovies.length === 0) {
+    // 🔥 검색 중이고 쿼리가 fetch 완료되었으며 결과가 없을 때만 실행
+    if (isSearchActive && searchQuery.isFetched && searchedMovies.length === 0) {
       toast.custom(<CustomToast message="결과가 없어 인기 영화 목록으로 이동합니다!" />, {
         id: 'unique-custom-toast',
         duration: 1500,
@@ -127,7 +128,7 @@ const MoviePage = () => {
       setSelectedGenre('all');
       setPage(1);
     }
-  }, [isSearchActive, searchedMovies]);
+  }, [isSearchActive, searchQuery.isFetched, searchedMovies.length]);
 
   if (isError) {
     toast.error(`영화 데이터 오류: ${error.message}`);

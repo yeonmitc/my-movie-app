@@ -2,11 +2,19 @@ import React from 'react';
 import { FaStar, FaUsers } from 'react-icons/fa';
 import { useGenreStore } from '@/store/genreStore';
 import './MovieDetailCard.style.css';
+import { useNavigate } from 'react-router-dom';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 const DEFAULT_IMAGE = '/default-movie.jpg';
 
 const MovieDetailCard = ({ movie }) => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/movies/${movie.id}`, {
+      state: { movie },
+    });
+  };
+
   const genreMap = useGenreStore((state) => state.genreMap);
   const {
     title = '제목 없음',
@@ -22,10 +30,9 @@ const MovieDetailCard = ({ movie }) => {
   const imageUrl = poster_path ? `${IMAGE_BASE_URL}${poster_path}` : DEFAULT_IMAGE;
   const releaseYear = release_date ? release_date.slice(0, 4) : '개봉일 없음';
   const isAdult = movie.adult === true || movie.adult === 'true';
-  console.log('isAdult= ', isAdult);
 
   return (
-    <div className="movie-detail-card group">
+    <div className="movie-detail-card group" onClick={handleClick}>
       <div className="image-wrapper">
         <img
           src={imageUrl}

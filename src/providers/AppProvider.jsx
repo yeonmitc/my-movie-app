@@ -5,7 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { queryClient } from '@/config/queryClient';
 import '@/config/persistConfig'; // 캐시 영속화 설정
-
+import VideoModal from '@/common/components/VideoModal';
 import ThemeInitializer from '@/init/ThemeInitializer';
 import GenreInitializer from '@/init/GenreInitializer';
 import PopularMoviesInitializer from '@/init/PopularMoviesInitializer';
@@ -20,6 +20,7 @@ export default function AppProvider({ children }) {
         <PopularMoviesInitializer />
         <GenreInitializer />
         {children}
+        <VideoModal />
       </BrowserRouter>
       <ToastManager />
       <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />

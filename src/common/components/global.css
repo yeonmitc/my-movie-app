@@ -225,4 +225,7 @@
     background-color: var(--color-btn-1-hover);
     transform: scale(1.05);
   }
+  .badge {
+    @apply inline-block rounded bg-[var(--color-bg-4)] px-3 py-1 text-sm font-semibold text-white;
+  }
 }
