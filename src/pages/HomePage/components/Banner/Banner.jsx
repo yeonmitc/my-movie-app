@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import './Banner.style.css';
-
+import { useNavigate } from 'react-router-dom';
 import { useMoviesQuery } from '@/hooks/useMovies';
 import { useVideoModalStore } from '@/store/videoModalStore';
 
@@ -9,11 +9,20 @@ const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w1280';
 const DEFAULT_IMAGE = '/default-banner.png';
 
 const Banner = () => {
+    const navigate = useNavigate();
+
+  
   const { data = [], isLoading, isError, error } = useMoviesQuery('popular');
   const [randomMovie, setRandomMovie] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const { openModal } = useVideoModalStore(); // 모달 추가
+  
+  const handleClick = () => {
+    navigate(`/movies/${randomMovie?.id}`, {
+      state: { randomMovie },
+    });
+  };
 
   useEffect(() => {
     if (data.length > 0) {
@@ -67,8 +76,13 @@ const Banner = () => {
             className="btn btn-animated btn-explore"
             onClick={() => openModal(randomMovie.id)}
           >
-            {' '}
-            🎬 Watch Now
+            예고편
+          </button>
+          <button
+            className="btn btn-animated btn-explore"
+            onClick={handleClick}
+          >
+            상세보기
           </button>
         </div>
       </div>
