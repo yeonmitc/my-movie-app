@@ -16,7 +16,9 @@ const VideoModal = () => {
   // ✅ 예고편 없을 때 토스트
   useEffect(() => {
     if (!isLoading && isOpen && videos && videos.length === 0) {
-      toast.error('이 영화는 예고편이 없습니다.');
+      toast.error('이 영화는 예고편이 없습니다.',{
+        id: 'video-error', 
+      });
     }
   }, [videos, isLoading, isOpen]);
 
