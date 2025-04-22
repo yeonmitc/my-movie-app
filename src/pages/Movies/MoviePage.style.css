@@ -2,33 +2,39 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer components {
-  /*  전체 페이지 컨테이너 */
-  .movie-page-container {
-    @apply px-4 sm:px-8 py-6 bg-[var(--color-bg-1)] text-[var(--color-text-1)];
+  .movie-page-layout {
+    @apply flex flex-col lg:flex-row gap-6 px-4 sm:px-8 py-6;
   }
 
-  /* 제목 (검색어 결과 or 인기 영화) */
-  .movie-page-title {
-    @apply text-xl sm:text-2xl font-bold mb-6 text-[var(--color-text-1)];
+  .movie-filter-panel {
+    @apply w-full lg:w-1/5 bg-[var(--color-bg-2)] p-4 rounded-md shadow-md;
   }
 
-  /* 에러 메시지 */
-  .movie-error {
-    @apply text-center py-8 text-red-500 dark:text-red-400;
+  .filter-box {
+    @apply mb-4;
   }
 
-  /*  로딩 후 영화 카드 그리드 */
-  .movie-grid {
-    @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4;
+  .filter-title {
+    @apply block text-sm font-semibold mb-2 text-[var(--color-text-1)];
   }
 
-  /*  결과 없음 문구 박스 */
+  .filter-select {
+    @apply w-full p-2 rounded border border-[var(--color-border-1)] bg-[var(--color-bg-1)] text-[var(--color-text-1)];
+  }
+
+  .movie-grid-section {
+    @apply flex-1;
+  }
+
   .movie-no-result-text {
-    @apply flex flex-col items-center justify-center w-full text-center mb-6;
+    @apply text-center text-base text-[var(--color-text-2)] mb-4;
   }
 
-  /*  결과 없음 안내 메시지 (슬라이더 제목 포함) */
-  .movie-slider-title {
-    @apply text-xl sm:text-2xl font-semibold leading-snug text-[var(--color-text-1)] mb-4;
+  .movie-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6;
+  }
+
+  .movie-error {
+    @apply text-center text-red-500 py-10 text-lg;
   }
 }

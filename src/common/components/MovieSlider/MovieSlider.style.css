@@ -11,13 +11,18 @@
   }
   
   .movie-slider-title {
-    @apply text-xl sm:text-2xl font-bold mb-4;
+    @apply text-xl sm:text-2xl font-bold mb-4 ;
     color: var(--color-text-1);
     font-weight: 700;
     font-size: 1.2rem;
   }
+
+  .movie-slider-section .react-multi-carousel-list {
+    overflow: visible !important;
+  }
+
   .carousel-item-spacing {
-    @apply px-1 sm:px-1.5 md:px-2; 
+    @apply px-1 sm:px-1.5 md:px-2 relative z-0 overflow-visible; 
   }
   
 

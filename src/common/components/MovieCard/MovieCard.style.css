@@ -4,16 +4,25 @@
 @layer components {
   .movie-card {
     @apply relative overflow-hidden rounded-xl shadow-md cursor-pointer
-           h-full min-h-[300px] max-w-[180px]
-           sm:min-h-[320px] sm:max-w-[200px]
-           md:min-h-[430px] md:max-w-[350px];
+          transition-transform duration-300
+          h-full min-h-[300px] max-w-[180px]
+          sm:min-h-[320px] sm:max-w-[200px]
+          md:min-h-[430px] md:max-w-[350px];
+           
   }
 
   .movie-card img {
     @apply w-full h-full object-cover transition-transform duration-300;
   }
+
+  .movie-card:hover {
+    @apply scale-105 z-50;
+    border: 5px solid var(--color-bg-3);
+  }
+
   .movie-card:hover img {
     transform: scale(1.1);
+    
   }
 
   .movie-card::after {
@@ -24,8 +33,7 @@
     width: 100%;
     height: 100%;
   
-    /* ✅ 여기가 핵심 */
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 60%, transparent 100%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 70%, transparent 100%);
   
     opacity: 0;
     z-index: 10;

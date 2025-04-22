@@ -1,0 +1,59 @@
+/* src/components/MovieCard/MovieDetailCard.style.css */
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer components {
+  .movie-detail-card {
+    @apply flex flex-col bg-[var(--color-bg-2)] rounded-xl overflow-hidden shadow-md
+           hover:shadow-lg transition-shadow duration-300 p-4 gap-3 text-[var(--color-text-1)];
+  }
+
+  .movie-detail-image {
+    @apply w-full rounded-md object-cover h-[280px] sm:h-[300px] md:h-[340px];
+  }
+
+  .movie-detail-content {
+    @apply flex flex-col gap-2;
+  }
+
+  .movie-detail-title {
+    @apply text-lg font-bold leading-snug tracking-tight;
+  }
+
+  .movie-detail-year {
+    @apply text-sm text-[var(--color-text-2)];
+  }
+
+  .movie-detail-genres {
+    @apply flex flex-wrap gap-2 mt-1;
+  }
+
+  .movie-detail-badge {
+    @apply bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-full;
+  }
+
+  .movie-detail-overview {
+    @apply text-sm text-[var(--color-text-2)] mt-1;
+  }
+
+  .movie-detail-meta {
+    @apply flex justify-start items-center gap-6 mt-2;
+  }
+
+  .movie-detail-rating,
+  .movie-detail-votes {
+    @apply flex items-center gap-1 text-sm;
+  }
+
+  .icon-star {
+    @apply text-yellow-400;
+  }
+
+  .icon-users {
+    @apply text-gray-400;
+  }
+
+  .movie-detail-label {
+    @apply mt-2 text-right text-sm;
+  }
+}
