@@ -54,13 +54,12 @@
   body {
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
   }
 
   html,
   body,
   #root {
-    @apply min-h-screen transition-colors duration-300;
+    @apply min-h-screen overflow-x-hidden transition-colors duration-300;
     background-color: var(--color-bg-1);
     color: var(--color-text-1);
   }
