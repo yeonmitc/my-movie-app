@@ -38,7 +38,9 @@ const MovieDetailPage = () => {
     if (trailer?.key) {
       openModal(id);
     } else {
-      toast.error('아직 예고편이 없습니다 😢');
+      toast.error('이 영화는 아직 예고편이 없습니다. 😢',{
+        id: 'video-error', 
+      });
     }
   };
 
