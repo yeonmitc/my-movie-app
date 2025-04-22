@@ -15,8 +15,9 @@ export default function Header() {
     const trimmed = query.trim();
 
     if (!trimmed) {
-      toast.error('검색어를 입력해주세요!');
-      setQuery('');
+      toast.error('검색어를 입력해주세요!', {
+        id: 'search-error', // 💡 동일한 id를 주면 중복 방지됨
+      });
       return;
     }
 

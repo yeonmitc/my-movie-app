@@ -1,5 +1,3 @@
-// ✅ MoviePage.jsx – TailwindCSS 정리용 컴포넌트 스타일 분리 적용 + Pagination 통합 UI/UX 개선
-
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useMoviesQuery } from '@/hooks/useMovies';
@@ -11,6 +9,7 @@ import toast from 'react-hot-toast';
 import './MoviePage.style.css';
 import MovieDetailCard from '@/common/MovieDetailCard/MovieDetailCard';
 import TopButton from '@/common/components/TopButton';
+import CustomToast from '@/common/components/CustomToast';
 
 const MoviePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -35,9 +34,10 @@ const MoviePage = () => {
   const error = searchQuery.error || popularQuery.error || genreQuery.error;
 
   const filterValidMovies = (movies = []) =>
-    movies.filter((m) => m.title && m.title.toLowerCase() !== 'undefined');
+    movies.filter((m) => typeof m.title === 'string' && m.title.trim() !== '');
 
-  const searchedMovies = filterValidMovies(searchQuery.data?.results);
+  const searchedMoviesRaw = searchQuery.data?.results || searchQuery.data || [];
+  const searchedMovies = filterValidMovies(searchedMoviesRaw);
   const popularMovies = filterValidMovies(popularQuery.data);
   const genreMovies = filterValidMovies(genreQuery.data);
 
@@ -116,6 +116,19 @@ const MoviePage = () => {
     setPage(updatedPage);
   }, [searchParams.toString()]);
 
+  useEffect(() => {
+    if (isSearchActive && searchedMovies.length === 0) {
+      toast.custom(<CustomToast message="결과가 없어 인기 영화 목록으로 이동합니다!" />, {
+        id: 'unique-custom-toast',
+        duration: 1500,
+      });
+      setSearchParams(new URLSearchParams());
+      setSortOption('release');
+      setSelectedGenre('all');
+      setPage(1);
+    }
+  }, [isSearchActive, searchedMovies]);
+
   if (isError) {
     toast.error(`영화 데이터 오류: ${error.message}`);
     return <div className="movie-error">영화 데이터를 불러오는 중 오류가 발생했습니다.</div>;
@@ -193,12 +206,7 @@ const MoviePage = () => {
 
       <section className="movie-grid-section">
         {sortedMovies.length === 0 && (
-          <p className="movie-no-result-text mt-10 text-center text-base text-[var(--color-text-2)] sm:text-lg">
-            😕 결과에 해당하는 영화가 없습니다.
-          </p>
-        )}
-        {isSearchActive && searchedMovies.length === 0 && (
-          <p className="movie-no-result-text">😕 ‘{query}’ 와 일치하는 결과가 없습니다.</p>
+          <p className="movie-no-result-text">😕 해당 조건에 맞는 영화가 없습니다.</p>
         )}
 
         <div className="movie-grid">
