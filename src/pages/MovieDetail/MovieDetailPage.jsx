@@ -7,9 +7,8 @@ import { useVideoModalStore } from '@/store/videoModalStore';
 import toast from 'react-hot-toast';
 import { useMovieDetailQuery } from '@/hooks/useMovieDetail';
 import { useMovieVideosQuery } from '@/hooks/useMovieVideos';
+import MoviePoster from '@/common/components/MoviePoster';
 
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
-const DEFAULT_IMAGE = '/default-movie.jpg';
 
 const MovieDetailPage = () => {
   const { id } = useParams();
@@ -30,9 +29,6 @@ const MovieDetailPage = () => {
     return null;
   }
 
-  const imageUrl = movie.poster_path
-    ? `${IMAGE_BASE_URL}${movie.poster_path}`
-    : DEFAULT_IMAGE;
 
   const trailer = videos?.find(
     (video) => video.site === 'YouTube' && video.type === 'Trailer'
@@ -51,14 +47,11 @@ const MovieDetailPage = () => {
       <div className="movie-detail-wrapper">
         {/* ✅ 포스터 */}
         <div className="movie-poster-container group relative">
-          <img
-            src={imageUrl}
-            alt={movie.title}
-            className="movie-poster"
-            onError={(e) => {
-              e.currentTarget.src = DEFAULT_IMAGE;
-            }}
-          />
+        <MoviePoster
+  posterPath={movie?.poster_path}
+  alt={movie?.title}
+  className="movie-poster"
+/>
           <div
             className="movie-poster-overlay group-hover:opacity-100"
             onClick={handleWatchTrailer}

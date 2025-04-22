@@ -3,9 +3,7 @@ import { FaStar, FaUsers } from 'react-icons/fa';
 import { useGenreStore } from '@/store/genreStore';
 import './MovieDetailCard.style.css';
 import { useNavigate } from 'react-router-dom';
-
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
-const DEFAULT_IMAGE = '/default-movie.jpg';
+import MoviePoster from '../components/MoviePoster';
 
 const MovieDetailCard = ({ movie }) => {
   const navigate = useNavigate();
@@ -27,24 +25,18 @@ const MovieDetailCard = ({ movie }) => {
     poster_path,
   } = movie;
 
-  const imageUrl = movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}`
-: DEFAULT_IMAGE;
+
   const releaseYear = release_date ? release_date.slice(0, 4) : '개봉일 없음';
   const isAdult = movie.adult === true || movie.adult === 'true';
 
   return (
     <div className="movie-detail-card group" onClick={handleClick}>
       <div className="image-wrapper">
-        <img
-          src={imageUrl}
-          alt={title}
-          className="movie-detail-image"
-          onError={(e) => {
-            if (!e.target.src.includes(DEFAULT_IMAGE)) {
-              e.target.src = DEFAULT_IMAGE;
-            }
-          }}
-        />
+      <MoviePoster
+  posterPath={movie?.poster_path}
+  alt={movie?.title}
+  className="movie-detail-image"
+/>
 
         <img
           src={isAdult ? '/adult.png' : '/all.png'}

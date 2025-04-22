@@ -14,7 +14,7 @@ import CustomToast from '@/common/components/CustomToast';
 const MoviePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('q')?.trim() || '';
-  const [sortOption, setSortOption] = useState(searchParams.get('sort') || 'release');
+  const [sortOption, setSortOption] = useState(searchParams.get('sort') || 'default');
   const [selectedGenre, setSelectedGenre] = useState(searchParams.get('genre') || 'all');
   const [page, setPage] = useState(Number(searchParams.get('page')) || 1);
   const { genreMap } = useGenreStore();
@@ -36,8 +36,7 @@ const MoviePage = () => {
   const filterValidMovies = (movies = []) =>
     movies.filter((m) => typeof m.title === 'string' && m.title.trim() !== '');
 
-  const searchedMoviesRaw = searchQuery.data?.results || searchQuery.data || [];
-  const searchedMovies = filterValidMovies(searchedMoviesRaw);
+  const searchedMovies = filterValidMovies(searchQuery.data?.results || searchQuery.data || []);
   const popularMovies = filterValidMovies(popularQuery.data);
   const genreMovies = filterValidMovies(genreQuery.data);
 
@@ -53,11 +52,7 @@ const MoviePage = () => {
     baseMovies = popularMovies;
   }
 
-  const sortedMovies = [...baseMovies].sort((a, b) => {
-    if (sortOption === 'vote') return b.vote_average - a.vote_average;
-    if (sortOption === 'popularity') return b.popularity - a.popularity;
-    return new Date(b.release_date) - new Date(a.release_date);
-  });
+  const sortedMovies = [...baseMovies]; // 이미 useDiscoverMovieQuery에서 sortOption 처리됨
 
   const pageSize = 12;
   const pageCount = Math.ceil(sortedMovies.length / pageSize);
@@ -92,7 +87,7 @@ const MoviePage = () => {
 
   const handleResetFilters = () => {
     setSearchParams(new URLSearchParams());
-    setSortOption('release');
+    setSortOption('default');
     setSelectedGenre('all');
     setPage(1);
   };
@@ -108,7 +103,7 @@ const MoviePage = () => {
   };
 
   useEffect(() => {
-    const updatedSort = searchParams.get('sort') || 'release';
+    const updatedSort = searchParams.get('sort') || 'default';
     const updatedGenre = searchParams.get('genre') || 'all';
     const updatedPage = Number(searchParams.get('page')) || 1;
     setSortOption(updatedSort);
@@ -117,16 +112,12 @@ const MoviePage = () => {
   }, [searchParams.toString()]);
 
   useEffect(() => {
-    // 🔥 검색 중이고 쿼리가 fetch 완료되었으며 결과가 없을 때만 실행
     if (isSearchActive && searchQuery.isFetched && searchedMovies.length === 0) {
       toast.custom(<CustomToast message="결과가 없어 인기 영화 목록으로 이동합니다!" />, {
         id: 'unique-custom-toast',
         duration: 500,
       });
-      setSearchParams(new URLSearchParams());
-      setSortOption('release');
-      setSelectedGenre('all');
-      setPage(1);
+      handleResetFilters();
     }
   }, [isSearchActive, searchQuery.isFetched, searchedMovies.length]);
 
@@ -158,10 +149,7 @@ const MoviePage = () => {
             <button className={radioStyle('vote')} onClick={() => handleSortChange('vote')}>
               평점순
             </button>
-            <button
-              className={radioStyle('popularity')}
-              onClick={() => handleSortChange('popularity')}
-            >
+            <button className={radioStyle('popularity')} onClick={() => handleSortChange('popularity')}>
               인기순
             </button>
             <button className={radioStyle('release')} onClick={() => handleSortChange('release')}>
