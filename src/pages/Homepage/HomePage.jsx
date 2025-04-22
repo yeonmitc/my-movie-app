@@ -3,6 +3,7 @@ import React from 'react';
 import Banner from '@/pages/HomePage/components/Banner/Banner';
 import MovieSlider from '@/common/components/MovieSlider/MovieSlider';
 import { responsive } from '@/constants/responsive';
+import TopButton from '@/common/components/TopButton';
 
 export default function HomePage() {
   return (
@@ -13,6 +14,7 @@ export default function HomePage() {
         <MovieSlider title="⭐ 평점 높은 영화" type="top_rated" responsive={responsive} />
         <MovieSlider title="⏳ 상영 예정작" type="upcoming" responsive={responsive} />
       </div>
+      <TopButton />
     </main>
   );
 }

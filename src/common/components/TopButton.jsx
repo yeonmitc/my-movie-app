@@ -23,7 +23,7 @@ const TopButton = () => {
 
   return (
     visible && (
-      <button className="top-btn" onClick={scrollToTop}>
+      <button className="top-btn animate-slide-in" onClick={scrollToTop}>
         <FaArrowUp className="h-full w-full" />
       </button>
     )
