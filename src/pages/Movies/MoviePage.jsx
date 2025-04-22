@@ -121,7 +121,7 @@ const MoviePage = () => {
     if (isSearchActive && searchQuery.isFetched && searchedMovies.length === 0) {
       toast.custom(<CustomToast message="결과가 없어 인기 영화 목록으로 이동합니다!" />, {
         id: 'unique-custom-toast',
-        duration: 1500,
+        duration: 500,
       });
       setSearchParams(new URLSearchParams());
       setSortOption('release');
