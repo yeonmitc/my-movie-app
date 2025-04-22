@@ -1,0 +1,68 @@
+@import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer components {
+  .movie-detail-layout {
+    @apply min-h-screen px-4 py-8 bg-[var(--color-bg-1)] text-[var(--color-text-1)] sm:px-6 md:px-10 lg:px-20;
+  }
+
+  .movie-detail-wrapper {
+    @apply mx-auto flex max-w-7xl flex-col items-center justify-center text-center gap-8 md:flex-row md:items-start md:justify-start md:text-left;
+  }
+
+  .movie-poster-container {
+    @apply relative w-full max-w-xs mx-auto; /* ✅ 모바일에서 이미지 폭 제한 */
+  }
+
+  .movie-poster {
+    @apply w-full max-h-[480px] rounded-lg shadow-lg object-cover;
+  }
+
+  .movie-poster-overlay {
+    @apply absolute inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.5)] opacity-0 transition-opacity duration-300 group-hover:opacity-100;
+  }
+
+  .movie-info-container {
+    @apply w-full flex flex-col items-center text-center md:items-start md:text-left;
+  }
+
+  .movie-genres {
+    @apply mb-4 flex flex-wrap justify-center gap-2 md:justify-start;
+  }
+
+  .genre-badge {
+    @apply rounded-full bg-red-600 px-3 py-1 text-sm font-medium text-white;
+  }
+
+  .movie-title {
+    @apply mb-2 text-4xl font-bold;
+  }
+
+  .movie-tagline {
+    @apply mb-4 text-xl text-[var(--color-text-2)];
+  }
+
+  .movie-stats {
+    @apply mb-6 flex flex-wrap justify-center gap-4 text-lg md:justify-start;
+  }
+
+  .rating-badge {
+    @apply rounded-full px-2 py-1 text-sm font-bold text-white;
+  }
+
+  .movie-overview {
+    @apply mb-6 border-t border-[var(--color-border-2)] pt-4 leading-relaxed;
+  }
+
+  .movie-info {
+    @apply flex flex-wrap justify-center gap-2 border-t border-[var(--color-border-2)] pt-4;
+  }
+
+  .badge {
+    @apply text-xs px-2 py-1 rounded bg-[var(--color-bg-4)] text-white font-semibold whitespace-nowrap;
+  }
+
+  .badge-row {
+    @apply w-[48%] flex items-center gap-2;
+  }
+}
