@@ -211,10 +211,8 @@
   }
 
   .top-btn {
-    @apply fixed right-6 bottom-6 z-50 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[var(--color-btn-1)] text-[3rem] text-white shadow-[0_10px_25px_rgba(0,0,0,0.5)] transition-all duration-300;
+    @apply fixed right-6 bottom-6 z-50 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[var(--color-btn-1)] sm:text-3xl md:text-8xl text-white shadow-[0_10px_25px_rgba(0,0,0,0.5)] transition-all duration-300;
 
-    @apply sm:right-5 sm:bottom-5 sm:h-[40px] sm:w-[40px] sm:text-[1rem];
-    @apply md:right-4 md:bottom-4 md:h-[40px] md:w-[40px] md:text-[1rem];
   }
 
   .dark .top-btn {
