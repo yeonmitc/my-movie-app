@@ -9,6 +9,9 @@ const api = axios.create({
     Accept: "application/json",
     Authorization: `Bearer ${API_KEY}`,
   },
+  params: {
+    language: 'ko-KR', // ✅ 모든 요청에 한국어 적용
+  },
 });
 
 api.interceptors.response.use(
