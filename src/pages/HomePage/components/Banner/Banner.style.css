@@ -7,7 +7,7 @@
   }
 
   .banner-image {
-    @apply h-full w-full object-cover transition-opacity duration-500;
+    @apply h-full w-full object-cover object-top transition-opacity duration-500;
   }
 
   .banner-overlay {

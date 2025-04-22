@@ -19,7 +19,7 @@
   }
 
   .movie-detail-image {
-    @apply aspect-[2/3] h-[240px] w-full rounded-md object-cover object-top sm:h-[260px] md:h-[280px];
+    @apply w-full rounded-md object-cover object-top sm:h-[260px] md:h-[280px];
   }
   .movie-detail-content {
     @apply flex flex-col gap-1 transition-all;
