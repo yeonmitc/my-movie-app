@@ -24,9 +24,9 @@ const MoviePage = () => {
   const searchQuery = useSearchMovieQuery({ keyword: query, page, enabled: isSearchActive });
   const popularQuery = useMoviesQuery('popular');
   const genreQuery = useDiscoverMovieQuery({
-    genreId: selectedGenre,
+    genreId: selectedGenre === 'all' ? null : selectedGenre,
     sortOption,
-    enabled: !isSearchActive && selectedGenre !== 'all',
+    enabled: !isSearchActive,
   });
 
   const isLoading = searchQuery.isLoading || popularQuery.isLoading || genreQuery.isLoading;
@@ -46,13 +46,11 @@ const MoviePage = () => {
     if (selectedGenre !== 'all') {
       baseMovies = baseMovies.filter((movie) => movie.genre_ids.includes(Number(selectedGenre)));
     }
-  } else if (selectedGenre !== 'all') {
-    baseMovies = genreMovies;
   } else {
-    baseMovies = popularMovies;
+    baseMovies = genreMovies.length > 0 || selectedGenre !== 'all' ? genreMovies : popularMovies;
   }
 
-  const sortedMovies = [...baseMovies]; // 이미 useDiscoverMovieQuery에서 sortOption 처리됨
+  const sortedMovies = [...baseMovies];
 
   const pageSize = 12;
   const pageCount = Math.ceil(sortedMovies.length / pageSize);

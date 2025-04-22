@@ -9,13 +9,15 @@ const fetchDiscoverMovies = async ({ genreId, sortOption }) => {
     default: 'popularity.desc',
   };
 
-  const res = await api.get('/discover/movie', {
-    params: {
-      with_genres: genreId,
-      sort_by: sortMap[sortOption] || sortMap.default,
-    },
-  });
+  const params = {
+    sort_by: sortMap[sortOption] || sortMap.default,
+  };
 
+  if (genreId) {
+    params.with_genres = genreId;
+  }
+
+  const res = await api.get('/discover/movie', { params });
   return res.data.results;
 };
 

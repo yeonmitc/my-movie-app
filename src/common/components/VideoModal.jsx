@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import YouTube from 'react-youtube';
 import toast from 'react-hot-toast';
 import { useVideoModalStore } from '@/store/videoModalStore';
@@ -13,6 +13,14 @@ const VideoModal = () => {
     (video) => video.site === 'YouTube' && video.type === 'Trailer'
   );
 
+  // ✅ 예고편 없을 때 토스트
+  useEffect(() => {
+    if (!isLoading && isOpen && videos && videos.length === 0) {
+      toast.error('이 영화는 예고편이 없습니다.');
+    }
+  }, [videos, isLoading, isOpen]);
+
+  // 기존 에러 처리
   if (isError && error?.message) {
     toast.error(`예고편 불러오기 실패: ${error.message}`);
     return null;

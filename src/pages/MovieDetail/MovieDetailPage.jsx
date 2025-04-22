@@ -63,16 +63,18 @@ const MovieDetailPage = () => {
 
         {/* ✅ 정보 */}
         <div className="movie-info-container">
-          <div className="movie-genres">
-            {movie.genres?.map((g) => (
-              <span key={g.id} className="genre-badge">
-                {g.name}
-              </span>
-            ))}
-          </div>
+          {movie.genres?.length > 0 && (
+            <div className="movie-genres">
+              {movie.genres.map((g) => (
+                <span key={g.id} className="genre-badge">
+                  {g.name}
+                </span>
+              ))}
+            </div>
+          )}
 
-          <h1 className="movie-title">{movie.title}</h1>
-          <p className="movie-tagline">{movie.tagline || 'No tagline available'}</p>
+          {movie.title && <h1 className="movie-title">{movie.title}</h1>}
+          {movie.tagline && <p className="movie-tagline">{movie.tagline}</p>}
 
           <div className="movie-stats">
             {movie.vote_average > 0 && (
@@ -94,7 +96,7 @@ const MovieDetailPage = () => {
             </span>
           </div>
 
-          <p className="movie-overview">{movie.overview}</p>
+          {movie.overview && <p className="movie-overview">{movie.overview}</p>}
 
           <div className="movie-info">
             {movie.budget > 0 && (
@@ -107,12 +109,16 @@ const MovieDetailPage = () => {
                 <span className="badge">Revenue</span> ${movie.revenue.toLocaleString()}
               </p>
             )}
-            <p className="badge-row">
-              <span className="badge">Release Date</span> {movie.release_date}
-            </p>
-            <p className="badge-row">
-              <span className="badge">Run time</span> {movie.runtime}분
-            </p>
+            {movie.release_date && (
+              <p className="badge-row">
+                <span className="badge">Release Date</span> {movie.release_date}
+              </p>
+            )}
+            {movie.runtime > 0 && (
+              <p className="badge-row">
+                <span className="badge">Run time</span> {movie.runtime}분
+              </p>
+            )}
           </div>
         </div>
       </div>
