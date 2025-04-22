@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ThemeToggle from '@/common/components/ThemeToggle';
-import SearchIcon from '@mui/icons-material/Search';
+import { FiSearch } from 'react-icons/fi';
 import logo from '@/assets/logo.png';
 import './Header.style.css';
 import toast from 'react-hot-toast';
@@ -59,7 +59,7 @@ export default function Header() {
               className="btn btn-animated px-4 py-2 text-sm"
               aria-label="검색 버튼"
             >
-              <SearchIcon fontSize="medium" />
+              <FiSearch size={20} />
             </button>
           </div>
 
@@ -69,7 +69,7 @@ export default function Header() {
             onClick={() => setShowSearch((prev) => !prev)}
             aria-label="모바일 검색창 열기"
           >
-            <SearchIcon fontSize="medium" />
+            <FiSearch size={20} />
           </button>
           <Link to="/movies" className="btn btn-animated">
             <span className="text-lg">🎬</span>
