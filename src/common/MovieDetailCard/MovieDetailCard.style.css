@@ -1,43 +1,55 @@
-/* src/components/MovieCard/MovieDetailCard.style.css */
-@import "tailwindcss";
+@import 'tailwindcss';
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer components {
   .movie-detail-card {
-    @apply flex flex-col bg-[var(--color-bg-2)] rounded-xl overflow-hidden shadow-md
-           hover:shadow-lg transition-shadow duration-300 p-4 gap-3 text-[var(--color-text-1)];
+    @apply flex transform cursor-pointer flex-col gap-1 overflow-hidden rounded-xl bg-[var(--color-bg-2)] p-4 text-[var(--color-text-1)] shadow-md transition-all duration-300;
+  }
+
+  .movie-detail-card:hover {
+    @apply -translate-y-2 bg-[var(--color-bg-4)] text-white shadow-2xl;
+  }
+
+  .movie-detail-card:hover .movie-detail-badge {
+    @apply bg-black text-white;
+  }
+
+  .image-wrapper {
+    @apply relative;
   }
 
   .movie-detail-image {
-    @apply w-full rounded-md object-cover h-[280px] sm:h-[300px] md:h-[340px];
+    @apply aspect-[2/3] h-[240px] w-full rounded-md object-cover object-top sm:h-[260px] md:h-[280px];
   }
-
   .movie-detail-content {
-    @apply flex flex-col gap-2;
+    @apply flex flex-col gap-1 transition-all;
   }
 
   .movie-detail-title {
-    @apply text-lg font-bold leading-snug tracking-tight;
+    @apply text-lg leading-snug font-bold tracking-tight transition-all;
   }
 
   .movie-detail-year {
-    @apply text-sm text-[var(--color-text-2)];
+    @apply ml-1 text-sm text-[var(--color-text-2)] transition-all;
   }
 
   .movie-detail-genres {
-    @apply flex flex-wrap gap-2 mt-1;
+    @apply flex flex-wrap gap-2 transition-all;
+  }
+  .movie-detail-image {
+    @apply h-[280px] w-full rounded-md object-cover sm:h-[300px] md:h-[340px];
   }
 
   .movie-detail-badge {
-    @apply bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-full;
+    @apply rounded-full bg-[var(--color-btn-1)] px-2 py-0.5 text-xs font-medium text-white transition-all duration-200;
   }
 
   .movie-detail-overview {
-    @apply text-sm text-[var(--color-text-2)] mt-1;
+    @apply mt-1 line-clamp-3 text-sm text-[var(--color-text-2)] transition-all;
   }
 
   .movie-detail-meta {
-    @apply flex justify-start items-center gap-6 mt-2;
+    @apply mt-2 flex items-center justify-start gap-6;
   }
 
   .movie-detail-rating,
@@ -51,9 +63,5 @@
 
   .icon-users {
     @apply text-gray-400;
-  }
-
-  .movie-detail-label {
-    @apply mt-2 text-right text-sm;
   }
 }

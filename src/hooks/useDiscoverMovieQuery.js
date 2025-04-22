@@ -2,14 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import api from '@/utils/api';
 
 const fetchDiscoverMovies = async ({ genreId, sortOption }) => {
-    const sortMap = {
-        vote: 'vote_average.desc',
-        popularity: 'popularity.desc',
-        release: 'release_date.desc',
-        g: 'release_date.desc',
-        r: 'release_date.desc',
-        default: 'popularity.desc',
-      };
+  const sortMap = {
+    vote: 'vote_average.desc',
+    popularity: 'popularity.desc',
+    release: 'release_date.desc',
+    default: 'popularity.desc',
+  };
 
   const res = await api.get('/discover/movie', {
     params: {

@@ -1,28 +1,31 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer components {
   .movie-card {
-    @apply relative overflow-hidden rounded-xl shadow-md cursor-pointer
-          transition-transform duration-300
-          h-full min-h-[300px] max-w-[180px]
-          sm:min-h-[320px] sm:max-w-[200px]
-          md:min-h-[430px] md:max-w-[350px];
-           
+    @apply relative w-full max-w-xs cursor-pointer overflow-hidden rounded-xl shadow-md transition-transform duration-300 sm:max-w-sm md:max-w-md;
   }
 
   .movie-card img {
-    @apply w-full h-full object-cover transition-transform duration-300;
+    @apply h-auto w-full object-cover transition-transform duration-300;
+  }
+
+  .age-icon {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .movie-card:hover .age-icon {
+    opacity: 1;
   }
 
   .movie-card:hover {
-    @apply scale-105 z-50;
-    border: 5px solid var(--color-bg-3);
+    @apply z-50 scale-101;
+    border: 5px solid var(--color-bg-4);
   }
 
   .movie-card:hover img {
     transform: scale(1.1);
-    
   }
 
   .movie-card::after {
@@ -32,9 +35,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-  
     background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 70%, transparent 100%);
-  
     opacity: 0;
     z-index: 10;
     transition: opacity 0.3s ease-in-out;
@@ -45,38 +46,35 @@
   }
 
   .movie-overlay {
-    @apply absolute bottom-0 left-0 w-full p-3 text-white z-20 opacity-0 translate-y-6 transition-all duration-300;
+    @apply absolute bottom-0 left-0 z-20 w-full translate-y-6 p-3 text-white opacity-0 transition-all duration-300;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
   }
 
   .movie-card:hover .movie-overlay {
-    @apply opacity-100 translate-y-0;
+    @apply translate-y-0 opacity-100;
   }
 
   .movie-title {
-    @apply font-semibold leading-snug truncate 
-           text-[1rem] sm:text-[1.125rem] md:text-[1.25rem];
+    @apply truncate text-[1.1rem] leading-snug font-bold sm:text-[1.25rem] md:text-[1.375rem];
   }
 
   .movie-rating {
-    @apply text-gray-300 mt-1 
-           text-[0.9rem] sm:text-base md:text-lg;
+    @apply mt-1 text-[1rem] text-gray-300 sm:text-[1.125rem] md:text-[1.25rem];
   }
 
   .carousel-item-spacing {
-    @apply px-1 sm:px-1.5 md:px-2; 
+    @apply px-1 sm:px-1.5 md:px-2;
   }
 
   .genre-badges {
-    @apply flex flex-wrap gap-1 mt-2 opacity-0 translate-y-2 transition-all duration-300;
+    @apply mt-2 flex translate-y-2 flex-wrap gap-1 opacity-0 transition-all duration-300;
   }
 
   .movie-card:hover .genre-badges {
-    @apply opacity-100 translate-y-0;
+    @apply translate-y-0 opacity-100;
   }
 
   .genre-badge {
-    @apply bg-red-600 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap;
+    @apply rounded-full bg-[var(--color-btn-1)] px-2.5 py-0.5 text-[11px] font-semibold whitespace-nowrap text-white sm:text-xs md:text-sm;
   }
-
 }

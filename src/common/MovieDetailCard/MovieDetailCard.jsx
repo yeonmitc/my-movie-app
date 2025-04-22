@@ -21,18 +21,31 @@ const MovieDetailCard = ({ movie }) => {
 
   const imageUrl = poster_path ? `${IMAGE_BASE_URL}${poster_path}` : DEFAULT_IMAGE;
   const releaseYear = release_date ? release_date.slice(0, 4) : '개봉일 없음';
+  const isAdult = movie.adult === true || movie.adult === 'true';
+  console.log('isAdult= ', isAdult);
 
   return (
-    <div className="movie-detail-card">
-      <img
-        src={imageUrl}
-        alt={title}
-        className="movie-detail-image"
-        onError={(e) => (e.target.src = DEFAULT_IMAGE)}
-      />
+    <div className="movie-detail-card group">
+      <div className="image-wrapper">
+        <img
+          src={imageUrl}
+          alt={title}
+          className="movie-detail-image"
+          onError={(e) => (e.target.src = DEFAULT_IMAGE)}
+        />
+
+        <img
+          src={isAdult ? '/adult.png' : '/all.png'}
+          alt={isAdult ? '성인용' : '전체관람가'}
+          className="absolute top-2 right-2 z-30 h-6 w-6 md:h-8 md:w-8"
+        />
+      </div>
+
       <div className="movie-detail-content">
-        <h2 className="movie-detail-title line-clamp-2">{title}</h2>
-        <p className="movie-detail-year">{releaseYear}</p>
+        <h2 className="movie-detail-title line-clamp-2 group-hover:text-white">
+          {title}
+          <span className="movie-detail-year group-hover:text-white">({releaseYear})</span>
+        </h2>
 
         <div className="movie-detail-genres">
           {genre_ids.map((id) => (
@@ -42,7 +55,7 @@ const MovieDetailCard = ({ movie }) => {
           ))}
         </div>
 
-        <p className="movie-detail-overview line-clamp-3">{overview}</p>
+        <p className="movie-detail-overview group-hover:text-white">{overview}</p>
 
         <div className="movie-detail-meta">
           <div className="movie-detail-rating">
@@ -51,14 +64,6 @@ const MovieDetailCard = ({ movie }) => {
           <div className="movie-detail-votes">
             <FaUsers className="icon-users" /> {vote_count.toLocaleString()}
           </div>
-        </div>
-
-        <div className="movie-detail-label">
-          {adult ? (
-            <span className="text-red-500 font-bold">Under 18</span>
-          ) : (
-            <span className="text-yellow-400 font-bold">All</span>
-          )}
         </div>
       </div>
     </div>

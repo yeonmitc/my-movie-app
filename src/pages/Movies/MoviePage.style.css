@@ -1,13 +1,13 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer components {
   .movie-page-layout {
-    @apply flex flex-col lg:flex-row gap-6 px-4 sm:px-8 py-6;
+    @apply flex flex-col gap-6 px-4 py-6 sm:px-8 lg:flex-row;
   }
 
   .movie-filter-panel {
-    @apply w-full lg:w-1/5 bg-[var(--color-bg-2)] p-4 rounded-md shadow-md;
+    @apply w-full rounded-md bg-[var(--color-bg-2)] p-4 shadow-md lg:w-1/5;
   }
 
   .filter-box {
@@ -15,11 +15,27 @@
   }
 
   .filter-title {
-    @apply block text-sm font-semibold mb-2 text-[var(--color-text-1)];
+    @apply mb-2 block text-sm font-semibold text-[var(--color-text-1)];
   }
 
-  .filter-select {
-    @apply w-full p-2 rounded border border-[var(--color-border-1)] bg-[var(--color-bg-1)] text-[var(--color-text-1)];
+  .radio-btn {
+    @apply rounded-full border border-[var(--color-border-1)] bg-transparent px-3 py-1 text-sm font-medium text-[var(--color-text-1)] transition-all duration-300 hover:scale-105 hover:bg-[var(--color-bg-3)];
+  }
+
+  .active-radio {
+    @apply scale-105 border-black bg-black text-white;
+  }
+
+  .genre-btn {
+    @apply rounded-full border border-[var(--color-border-1)] bg-transparent px-3 py-1 text-sm font-medium text-[var(--color-text-1)] transition-all duration-300 hover:scale-105 hover:bg-[var(--color-bg-3)];
+  }
+
+  .active-genre {
+    @apply scale-105 border-[var(--color-btn-1)] bg-[var(--color-btn-1)] text-white;
+  }
+
+  .reset-btn {
+    @apply rounded-full border border-[var(--color-border-1)] bg-[var(--color-btn-2)] px-3 py-1 text-sm font-medium text-[var(--color-text-1)] transition-all duration-300 hover:bg-[var(--color-btn-2-hover)];
   }
 
   .movie-grid-section {
@@ -27,14 +43,14 @@
   }
 
   .movie-no-result-text {
-    @apply text-center text-base text-[var(--color-text-2)] mb-4;
+    @apply mt-10 mb-4 gap-6 text-center text-base text-[var(--color-text-1)] sm:text-3xl md:text-3xl lg:text-2xl;
   }
 
   .movie-grid {
-    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6;
+    @apply grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3;
   }
 
   .movie-error {
-    @apply text-center text-red-500 py-10 text-lg;
+    @apply bg-[var(--color-bg-1)] py-10 text-center text-lg;
   }
 }

@@ -12,14 +12,22 @@ const MovieCard = ({ movie }) => {
   const rating = movie.vote_average ?? 0;
   const imageUrl = movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}` : DEFAULT_IMAGE;
 
-  // console.log("movie =" , movie)
+  //console.log('movie.adult=', movie.adult);
+  const isAdult = movie.adult === true || movie.adult === 'true';
   return (
     <div className="movie-card">
+      <img
+        src={isAdult ? '/adult.png' : '/all.png'}
+        alt={isAdult ? '성인용' : '전체관람가'}
+        className="age-icon absolute top-1 right-1 z-30 h-6 w-6 md:h-8 md:w-8"
+      />
+
       <img src={imageUrl} alt={title} onError={(e) => (e.target.src = DEFAULT_IMAGE)} />
+
       <div className="movie-overlay">
         <div className="movie-title">{title}</div>
-
         <div className="movie-rating">⭐ {rating.toFixed(1)}</div>
+
         {movie.genre_ids?.length > 0 && (
           <div className="genre-badges">
             {movie.genre_ids.map((id) => (

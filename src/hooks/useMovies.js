@@ -1,7 +1,7 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import api from "@/utils/api";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import api from '@/utils/api';
 
-const validTypes = ["popular", "top_rated", "upcoming"];
+const validTypes = ['popular', 'top_rated', 'upcoming'];
 
 const fetchMovies = async (type) => {
   if (!validTypes.includes(type)) {
@@ -12,14 +12,13 @@ const fetchMovies = async (type) => {
   return res.data.results;
 };
 
-
 export const useMoviesQuery = (type) => {
   const queryClient = useQueryClient();
 
-  const initialDataFromCache = queryClient.getQueryData(["movies", type]);
+  const initialDataFromCache = queryClient.getQueryData(['movies', type]);
 
   return useQuery({
-    queryKey: ["movies", type],
+    queryKey: ['movies', type],
     queryFn: () => fetchMovies(type),
     initialData: initialDataFromCache, // ✅ 캐시 초기값 사용
     staleTime: 1000 * 60 * 5,
