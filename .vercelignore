@@ -1,0 +1,15 @@
+# node_modules는 자동으로 무시
+.vscode
+*.log
+*.env.local
+.env.*
+README.md
+tests/
+__tests__/
+coverage/
+cypress/
+public/mock/
+src/__mocks__/
+src/**/*.test.js
+src/**/*.test.jsx
+src/**/*.spec.js

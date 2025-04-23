@@ -1,0 +1,20 @@
+@import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer components {
+  .review-card {
+    @apply my-4 w-full max-w-3xl rounded border border-[var(--color-border-1)] bg-[var(--color-bg-2)] p-4 text-[var(--color-text-1)] dark:bg-[var(--color-bg-3)];
+  }
+  .review-author {
+    @apply mb-2 font-semibold text-[var(--color-btn-1)];
+  }
+  .review-content {
+    @apply text-sm leading-relaxed text-[var(--color-text-2)];
+  }
+  .review-toggle {
+    @apply ml-2 cursor-pointer font-medium text-[var(--color-btn-1)] underline;
+  }
+  .no-review-msg {
+    @apply py-6 text-center text-[var(--color-text-2)];
+  }
+}

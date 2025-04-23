@@ -8,7 +8,8 @@ import { useMoviesQuery } from '@/hooks/useMovies';
 import './MovieSlider.style.css';
 
 const MovieSlider = ({ title, type, responsive }) => {
-  const { data = [], isLoading, isError, error } = useMoviesQuery(type);
+  const { data, isLoading, isError, error } = useMoviesQuery(type);
+  const movies = data?.results || [];
 
   if (isError) {
     toast.error(`${title} 로드 중 오류: ${error.message}`);
@@ -19,7 +20,7 @@ const MovieSlider = ({ title, type, responsive }) => {
     return <div className="py-4 text-center text-sm text-gray-500">{title} 로딩 중...</div>;
   }
 
-  if (data.length === 0) {
+  if (movies.length === 0) {
     return (
       <div className="py-4 text-center text-sm text-gray-400">
         {title}에 해당하는 영화가 없습니다.
@@ -38,7 +39,7 @@ const MovieSlider = ({ title, type, responsive }) => {
         responsive={responsive}
         itemClass="carousel-item-spacing"
       >
-        {data.map((movie) => {
+        {movies.map((movie) => {
           // console.log('🎬 Movie:', movie)
           return <MovieCard key={movie.id} movie={movie} />;
         })}

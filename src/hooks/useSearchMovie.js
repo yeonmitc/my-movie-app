@@ -8,7 +8,8 @@ const fetchSearchMovie = async ({ keyword, page = 1 }) => {
       page,
     },
   });
-  return res.data.results;
+  // return res.data.results;
+  return res.data; //  includes: results, total_results, total_pages, etc.
 };
 
 export const useSearchMovieQuery = ({ keyword, page = 1, enabled }) => {

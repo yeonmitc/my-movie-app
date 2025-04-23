@@ -9,27 +9,26 @@ const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w1280';
 const DEFAULT_IMAGE = '/default-banner.png';
 
 const Banner = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const { data, isLoading, isError, error } = useMoviesQuery('popular');
+  const movies = Array.isArray(data) ? data : data?.results || [];
 
-  
-  const { data = [], isLoading, isError, error } = useMoviesQuery('popular');
   const [randomMovie, setRandomMovie] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const { openModal } = useVideoModalStore(); // 모달 추가
-  
+
   const handleClick = () => {
     navigate(`/movies/${randomMovie?.id}`, {
       state: { randomMovie },
     });
   };
-
   useEffect(() => {
-    if (data.length > 0) {
-      const rand = Math.floor(Math.random() * data.length);
-      setRandomMovie(data[rand]);
+    if (movies.length > 0 && !randomMovie) {
+      const rand = Math.floor(Math.random() * movies.length);
+      setRandomMovie(movies[rand]);
     }
-  }, [data]);
+  }, [movies, randomMovie]);
 
   useEffect(() => {
     if (isError && error?.message) {
@@ -64,7 +63,10 @@ const Banner = () => {
           src={imageUrl}
           alt={randomMovie.title}
           onLoad={() => setImageLoaded(true)}
-          onError={(e) => (e.target.src = DEFAULT_IMAGE)}
+          onError={(e) => {
+            e.currentTarget.onerror = null; // 루프 방지
+            e.currentTarget.src = DEFAULT_IMAGE;
+          }}
           style={{ display: 'none' }}
         />
       )}
@@ -78,10 +80,7 @@ const Banner = () => {
           >
             예고편
           </button>
-          <button
-            className="btn btn-animated btn-explore"
-            onClick={handleClick}
-          >
+          <button className="btn btn-animated btn-explore" onClick={handleClick}>
             상세보기
           </button>
         </div>

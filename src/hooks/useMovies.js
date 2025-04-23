@@ -9,7 +9,7 @@ const fetchMovies = async (type) => {
   }
 
   const res = await api.get(`/movie/${type}`);
-  return res.data.results;
+  return res.data; // ✅ results + total_pages
 };
 
 export const useMoviesQuery = (type) => {
@@ -20,7 +20,7 @@ export const useMoviesQuery = (type) => {
   return useQuery({
     queryKey: ['movies', type],
     queryFn: () => fetchMovies(type),
-    initialData: initialDataFromCache, // ✅ 캐시 초기값 사용
+    initialData: () => queryClient.getQueryData(['movies', type]),
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 10,
     refetchOnWindowFocus: false,

@@ -75,3 +75,6 @@ lerna-debug.log*
 
 # lock 파일은 보통 버전 관리
 pnpm-lock.yaml
+
+# vercel 관련파일
+.vercel

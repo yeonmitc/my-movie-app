@@ -23,7 +23,7 @@
   }
 
   .active-radio {
-    @apply scale-105 border-black bg-black text-white;
+    @apply scale-105 rounded-full border-black bg-black text-white;
   }
 
   .genre-btn {
@@ -31,7 +31,7 @@
   }
 
   .active-genre {
-    @apply scale-105 border-[var(--color-btn-1)] bg-[var(--color-btn-1)] text-white;
+    @apply scale-105 rounded-full border-[var(--color-btn-1)] bg-[var(--color-btn-1)] text-white;
   }
 
   .reset-btn {

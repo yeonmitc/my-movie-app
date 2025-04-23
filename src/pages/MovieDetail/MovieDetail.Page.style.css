@@ -3,7 +3,7 @@
 
 @layer components {
   .movie-detail-layout {
-    @apply min-h-screen px-4 py-8 bg-[var(--color-bg-1)] text-[var(--color-text-1)] sm:px-6 md:px-10 lg:px-20;
+    @apply min-h-screen bg-[var(--color-bg-1)] px-4 py-8 text-[var(--color-text-1)] sm:px-6 md:px-10 lg:px-20;
   }
 
   .movie-detail-wrapper {
@@ -11,20 +11,19 @@
   }
 
   .movie-poster-container {
-    @apply relative w-full max-w-xs mx-auto;
+    @apply relative mx-auto w-full max-w-xs;
   }
 
   .movie-poster {
-    @apply w-full max-h-[480px] rounded-lg shadow-lg object-cover;
+    @apply max-h-[480px] w-full rounded-lg object-cover shadow-lg;
   }
 
   .movie-poster-overlay {
     @apply absolute inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.5)] opacity-0 transition-opacity duration-300 group-hover:opacity-100;
   }
 
-
   .movie-info-container {
-    @apply w-full flex flex-col items-center text-center;
+    @apply flex w-full flex-col items-center text-center;
   }
 
   .movie-genres {
@@ -36,11 +35,11 @@
   }
 
   .movie-title {
-    @apply text-2xl sm:text-3xl md:text-4xl font-bold break-words w-full text-center break-words break-normal whitespace-normal;
+    @apply w-full text-center text-2xl font-bold break-normal break-words whitespace-normal sm:text-3xl md:text-4xl;
   }
 
   .movie-tagline {
-    @apply mb-4 text-xl text-[var(--color-text-2)] text-center;
+    @apply mb-4 text-center text-xl text-[var(--color-text-2)];
   }
 
   .movie-stats {
@@ -52,19 +51,18 @@
   }
 
   .movie-overview {
-    @apply mb-6 w-full border-t border-[var(--color-border-2)] pt-4 leading-relaxed text-center;
+    @apply mb-6 w-full border-t border-[var(--color-border-2)] pt-4 text-center leading-relaxed;
   }
 
   .movie-info {
-    @apply w-full flex flex-wrap justify-between gap-y-2 border-t border-[var(--color-border-2)] pt-4;
+    @apply flex w-full flex-wrap justify-between gap-y-2 border-t border-[var(--color-border-2)] pt-4;
   }
 
   .badge {
-    @apply inline-block rounded bg-[var(--color-bg-4)] px-3 py-1 text-sm font-semibold text-white text-center;
+    @apply inline-block rounded bg-[var(--color-bg-4)] px-3 py-1 text-center text-sm font-semibold text-white;
   }
 
   .badge-row {
-    @apply w-[48%] min-w-[140px] flex flex-col items-center text-center gap-1 sm:flex-row sm:items-center sm:gap-2;
+    @apply flex w-[48%] min-w-[140px] flex-col items-center gap-1 text-center sm:flex-row sm:items-center sm:gap-2;
   }
-
 }
