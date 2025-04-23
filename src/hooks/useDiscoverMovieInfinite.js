@@ -4,7 +4,7 @@ import api from '@/utils/api';
 const sortMap = {
   vote: 'vote_average.desc',
   popularity: 'popularity.desc',
-  release: 'release_date.desc',
+  release: 'primary_release_date.desc',
 };
 
 const fetchDiscoverMovies = async ({ queryKey, pageParam = 1 }) => {
@@ -13,7 +13,8 @@ const fetchDiscoverMovies = async ({ queryKey, pageParam = 1 }) => {
     sort_by: sortMap[sortOption] || sortMap.default,
     page: pageParam,
   };
-  if (genreId) {
+  // ✅ genreId가 유효할 때만 with_genres 추가
+  if (genreId && genreId !== 'all') {
     params.with_genres = genreId;
   }
   const res = await api.get('/discover/movie', { params });

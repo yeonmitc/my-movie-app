@@ -29,14 +29,18 @@ export default function MoviePage() {
   });
   const searchQ = useSearchMovieInfinite(query, isSearch); // 검색 쿼리
 
+  const discoverResults = discoverQ?.data?.pages?.flatMap((p) => p.results) || [];
+
   const pages = (() => {
     if (isSearch) return searchQ.data?.pages?.flatMap((p) => p.results) || [];
-    if (discoverQ.data?.pages) return discoverQ.data.pages.flatMap((p) => p.results);
+    if (discoverQ?.data?.pages) return discoverQ.data.pages.flatMap((p) => p.results);
     if (popularQ.data?.results) return popularQ.data.results;
     return [];
-  })(); // 모든 경우의 영화 목록
+  })();
 
-  let filtered = pages.filter((m) => m.title && m.release_date); // 기본 필터링
+  // 필터링 단계에서는 title만 체크
+  let filtered = pages.filter((m) => m.title);
+
   if (genreId !== 'all') {
     filtered = filtered.filter((m) => m.genre_ids.includes(Number(genreId))); // 장르 필터
   }
@@ -45,23 +49,28 @@ export default function MoviePage() {
     filtered = popularQ.data.results; // 검색 결과 없으면 fallback
   }
 
-  const sorted = filtered
-    .filter((m) => m.release_date) // << 없으면 정렬 못하니까 제거
-    .sort((a, b) => {
-      if (sortOption === 'vote') return b.vote_average - a.vote_average;
-      if (sortOption === 'popularity') return b.popularity - a.popularity;
-      return new Date(b.release_date) - new Date(a.release_date);
-    });
+  // 정렬은 release_date 있는 항목 기준으로
+  const sorted = filtered.slice().sort((a, b) => {
+    if (sortOption === 'vote') return b.vote_average - a.vote_average;
+    if (sortOption === 'popularity') return b.popularity - a.popularity;
+    if (sortOption === 'release') {
+      const aDate = a.release_date ? new Date(a.release_date) : new Date('1900-01-01');
+      const bDate = b.release_date ? new Date(b.release_date) : new Date('1900-01-01');
+      return bDate - aDate;
+    }
+    return 0;
+  });
 
   const totalResults = isSearch
     ? searchQ.data?.pages[0]?.total_results || 0
     : discoverQ.data?.pages[0]?.total_results || popularQ.data?.results?.length || 0;
-  const totalPages = Math.ceil(totalResults / pageSize); // 전체 페이지 수
 
-  const current = sorted.slice((page - 1) * pageSize, page * pageSize); // 현재 페이지 영화
-  page < 1;
+  const totalPages = Math.max(1, Math.ceil(sorted.length / pageSize));
+  const safePage = Math.min(Math.max(1, page), totalPages); // 1 이상, totalPages 이하
+  const current = sorted.slice((safePage - 1) * pageSize, safePage * pageSize); // 실제 렌더링된 페이지
+
   useEffect(() => {
-    if ((page > totalPages && totalPages > 0) || page < 1) {
+    if (page > totalPages) {
       toast.error('🚫 없는 페이지입니다. 첫 페이지로 이동합니다.', { id: 'page-error' });
       updateParams({ page: 1 });
       setPage(1);
@@ -69,10 +78,10 @@ export default function MoviePage() {
   }, [page, totalPages]);
 
   useEffect(() => {
-    if (isSearch && current.length < page * pageSize && searchQ.hasNextPage) {
-      searchQ.fetchNextPage(); // 다음 페이지 불러오기
+    if (!isSearch && discoverQ?.hasNextPage && current.length < page * pageSize) {
+      discoverQ?.fetchNextPage();
     }
-  }, [page, pageSize, current.length, isSearch, searchQ]);
+  }, [page, pageSize, current.length, isSearch, discoverQ]);
 
   const updateParams = (updates) => {
     const np = new URLSearchParams(params);
@@ -84,30 +93,31 @@ export default function MoviePage() {
   }; // URL 업데이트
 
   const reset = () => {
-    setSortOption('popularity');
     setGenreId('all');
     setPage(1);
     setParams(new URLSearchParams());
   };
 
+  // 검색 결과 없음 → fallback
   useEffect(() => {
-    const noResults =
+    const noResult =
       searchQ.isFetched &&
       !searchQ.isFetchingNextPage &&
-      (searchQ.data?.pages[0]?.total_results === 0 || filtered.length === 0);
+      (searchQ.data?.pages?.[0]?.total_results === 0 || sorted.length === 0);
 
-    if (isSearch && noResults) {
+    if (noResult) {
       toast.custom(<CustomToast message="🔍 검색결과가 없어 인기영화로 돌아갑니다!" />, {
         id: 'search-no-result',
       });
       reset();
     }
-  }, [isSearch, searchQ.isFetched, searchQ.isFetchingNextPage, filtered.length]);
+  }, [searchQ.isFetched, searchQ.isFetchingNextPage, sorted.length]);
 
+  // 로딩 & 에러 처리
   if (
     !popularQ.isFetched ||
     (isSearch && !searchQ.isFetched) ||
-    (!isSearch && !discoverQ.isFetched)
+    (!isSearch && !discoverQ?.isFetched)
   ) {
     return (
       <div className="loading-wrapper">
@@ -116,12 +126,12 @@ export default function MoviePage() {
     );
   }
 
-  if (popularQ.isError || searchQ.isError || discoverQ.isError) {
-    const e = popularQ.error || searchQ.error || discoverQ.error;
-    return <div className="movie-error">🚨 {e.message}</div>;
+  if (popularQ.isError || searchQ.isError || discoverQ?.isError) {
+    const err = popularQ.error || searchQ.error || discoverQ?.error;
+    return <div className="movie-error">🚨 {err.message}</div>;
   }
 
-  console.log('🔎 discoverQ', discoverQ.data);
+  console.log('🔎 discoverQ', discoverQ?.data);
   console.log('🧮 filtered', filtered);
   console.log('✅ sorted', sorted);
 
@@ -205,7 +215,7 @@ export default function MoviePage() {
           <div className="filter-box">
             <ReactPaginate
               pageCount={totalPages} // 전체 페이지
-              forcePage={page - 1} // 현재 페이지 (0-based)
+              forcePage={safePage - 1} // 실제 렌더링페이지
               onPageChange={({ selected }) => {
                 if (selected < 0) return; // 음수 페이지 막기
                 const np = selected + 1;
@@ -233,9 +243,14 @@ export default function MoviePage() {
           <p className="movie-no-result-text">😕 해당 조건에 맞는 영화가 없습니다.</p>
         ) : (
           <div className="movie-grid">
-            {current.map((m) => (
-              <MovieDetailCard key={m.id} movie={m} />
+            {current.map((movie) => (
+              <MovieDetailCard key={movie.id} movie={movie} />
             ))}
+            {!isSearch && discoverQ?.isFetchingNextPage && (
+              <div className="loading-wrapper">
+                <div className="loading-spinner" />
+              </div>
+            )}
           </div>
         )}
       </section>

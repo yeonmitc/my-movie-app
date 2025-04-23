@@ -21,7 +21,8 @@ export default function Header() {
       return;
     }
 
-    navigate(`/movies?q=${encodeURIComponent(trimmed)}`);
+    // ✅ 검색 시 필터값 초기화 포함
+    navigate(`/movies?q=${encodeURIComponent(trimmed)}&genre=all&page=1`);
     setShowSearch(false);
     setQuery('');
   };
