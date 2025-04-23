@@ -34,13 +34,14 @@ const MoviePage = () => {
   const error = searchQuery.error || popularQuery.error || genreQuery.error;
 
   const filterValidMovies = (movies = []) =>
-    movies.filter((m) => typeof m.title === 'string' && m.title.trim() !== '');
+    movies.filter((m) => typeof m.title === 'string' && !!m.title.trim() && m.vote_count > 0);
 
   const searchedMovies = filterValidMovies(searchQuery.data?.results || searchQuery.data || []);
   const popularMovies = filterValidMovies(popularQuery.data);
   const genreMovies = filterValidMovies(genreQuery.data);
 
   let baseMovies = [];
+
   if (isSearchActive) {
     baseMovies = searchedMovies;
     if (selectedGenre !== 'all') {
@@ -49,8 +50,11 @@ const MoviePage = () => {
   } else {
     baseMovies = genreMovies.length > 0 || selectedGenre !== 'all' ? genreMovies : popularMovies;
   }
-
-  const sortedMovies = [...baseMovies];
+  const sortedMovies = [...baseMovies].sort((a, b) => {
+    if (sortOption === 'vote') return b.vote_average - a.vote_average;
+    if (sortOption === 'popularity') return b.popularity - a.popularity;
+    return new Date(b.release_date) - new Date(a.release_date);
+  });
 
   const pageSize = 12;
   const pageCount = Math.ceil(sortedMovies.length / pageSize);
@@ -110,6 +114,8 @@ const MoviePage = () => {
   }, [searchParams.toString()]);
 
   useEffect(() => {
+    //검색 중이고 쿼리가 fetch 완료되었으며 결과가 없을 때만 실행
+
     if (isSearchActive && searchQuery.isFetched && searchedMovies.length === 0) {
       toast.custom(<CustomToast message="결과가 없어 인기 영화 목록으로 이동합니다!" />, {
         id: 'unique-custom-toast',
@@ -147,7 +153,10 @@ const MoviePage = () => {
             <button className={radioStyle('vote')} onClick={() => handleSortChange('vote')}>
               평점순
             </button>
-            <button className={radioStyle('popularity')} onClick={() => handleSortChange('popularity')}>
+            <button
+              className={radioStyle('popularity')}
+              onClick={() => handleSortChange('popularity')}
+            >
               인기순
             </button>
             <button className={radioStyle('release')} onClick={() => handleSortChange('release')}>
