@@ -45,7 +45,6 @@ export default function MoviePage() {
       (m) => Array.isArray(m.genre_ids) && m.genre_ids.includes(Number(genreId))
     );
   }
-  
 
   // 정렬은 release_date 있는 항목 기준으로
   const sorted = filtered.slice().sort((a, b) => {
@@ -72,18 +71,18 @@ export default function MoviePage() {
   }, [page, totalPages]);
 
   useEffect(() => {
-    const isLastPage = !discoverQ?.hasNextPage;
-    const isFull = current.length >= page * pageSize;
-  
-    if (!isSearch && !isLastPage && !isFull) {
+    const totalFetched = discoverQ.data?.pages?.flatMap((p) => p.results).length || 0;
+    const isFull = totalFetched >= page * pageSize;
+
+    if (!isSearch && discoverQ?.hasNextPage && !isFull && !discoverQ?.isFetchingNextPage) {
       discoverQ.fetchNextPage();
     }
-  
-    if (isSearch && searchQ?.hasNextPage && !isFull) {
+
+    if (isSearch && searchQ?.hasNextPage && !isFull && !searchQ?.isFetchingNextPage) {
       searchQ.fetchNextPage();
     }
-  }, [page, pageSize, current.length, isSearch, discoverQ, searchQ]);
-  
+  }, [page, pageSize, isSearch, discoverQ, searchQ]);
+
   const updateParams = (updates) => {
     const np = new URLSearchParams(params);
     Object.entries(updates).forEach(([k, v]) => {
@@ -101,20 +100,20 @@ export default function MoviePage() {
 
   // 검색 결과 없음 → fallback
   const noSearchResult =
-  isSearch &&
-  searchQ.isFetched &&
-  !searchQ.isFetchingNextPage &&
-  (searchQ.data?.pages?.[0]?.total_results === 0);
+    isSearch &&
+    searchQ.isFetched &&
+    !searchQ.isFetchingNextPage &&
+    searchQ.data?.pages?.[0]?.total_results === 0;
 
-// 👉 fallback은 "서버 검색 결과가 아예 없을 때"만 동작해야 함
-useEffect(() => {
-  if (noSearchResult) {
-    toast.custom(<CustomToast message="🔍 검색결과가 없어 인기영화로 돌아갑니다!" />, {
-      id: 'search-no-result',
-    });
-    reset();
-  }
-}, [noSearchResult]);
+  // 👉 fallback은 "서버 검색 결과가 아예 없을 때"만 동작해야 함
+  useEffect(() => {
+    if (noSearchResult) {
+      toast.custom(<CustomToast message="🔍 검색결과가 없어 인기영화로 돌아갑니다!" />, {
+        id: 'search-no-result',
+      });
+      reset();
+    }
+  }, [noSearchResult]);
 
   // 로딩 & 에러 처리
   if (
