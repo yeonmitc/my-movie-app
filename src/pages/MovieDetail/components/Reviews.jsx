@@ -56,11 +56,15 @@ const Reviews = () => {
   useEffect(() => {
     const container = scrollBoxRef.current;
     const sentinel = sentinelRef.current;
+
     if (!container || !sentinel) return;
+    if (reviews.length === 0) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
+        //console.log('[DEBUG] entry.isIntersecting:', entry.isIntersecting);
         if (entry.isIntersecting) {
+          //  console.log('📍 Intersection detected');
           hasNextPage ? fetchNextPage() : showNoMoreReviewsToast();
         }
       },
@@ -69,7 +73,7 @@ const Reviews = () => {
 
     observer.observe(sentinel);
     return () => observer.disconnect();
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage, reviews]);
 
   if (reviews.length === 0) {
     return (
@@ -81,9 +85,9 @@ const Reviews = () => {
 
   return (
     <div ref={scrollBoxRef} className="review-scroll-box max-h-[600px] overflow-y-auto px-2">
-      {reviews.map((review) => (
+      {reviews.map((review, idx) => (
         <Review
-          key={review.id}
+          key={`${review.id}-${idx}`}
           author={review.author}
           content={review.content}
           rating={review.author_details?.rating}
