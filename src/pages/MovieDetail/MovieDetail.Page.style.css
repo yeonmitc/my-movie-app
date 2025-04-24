@@ -67,6 +67,9 @@
   }
 
   .movie-reviews-wrapper {
-    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-8;
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-4;
+  }
+  .movie-recommendation-wrapper {
+    @apply mx-auto w-full max-w-7xl px-4 py-4 sm:px-6 md:px-4;
   }
 }

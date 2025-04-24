@@ -10,7 +10,6 @@ const MoviePoster = ({ posterPath = '', alt = 'Movie Poster', className = '' }) 
     <img
       src={imageUrl}
       alt={alt}
-       loading="lazy"
       className={className}
       onError={(e) => {
         if (!e.currentTarget.src.includes(DEFAULT_IMAGE)) {

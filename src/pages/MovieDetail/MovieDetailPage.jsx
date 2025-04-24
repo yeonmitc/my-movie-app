@@ -9,15 +9,14 @@ import { useMovieDetailQuery } from '@/hooks/useMovieDetail';
 import { useMovieVideosQuery } from '@/hooks/useMovieVideos';
 import MoviePoster from '@/common/components/MoviePoster';
 import Reviews from './components/Reviews';
-import useMovieReviewsQuery from '@/hooks/useMovieReviews';
 import TopButton from '@/common/components/TopButton';
+import RecommendationMovieSlider from './components/RecommendationMovieSlider';
 
 const MovieDetailPage = () => {
   const { id } = useParams();
   const { openModal } = useVideoModalStore();
   const { data: movie, isLoading, isError, error } = useMovieDetailQuery(id);
   const { data: videos } = useMovieVideosQuery(id);
-  const { data: reviews } = useMovieReviewsQuery(id);
 
   if (isLoading) {
     return (
@@ -122,10 +121,16 @@ const MovieDetailPage = () => {
           </div>
         </div>
       </div>
+      {/* ✅ 추천 영화 슬라이더  */}
+      <div className="movie-recommendation-wrapper my-8">
+        <h2 className="mb-4 text-xl font-bold">🎞️ 이런 영화도 좋아할 거예요</h2>
+        <RecommendationMovieSlider sectionTitle="" />
+      </div>
+
       {/* ✅ 리뷰 컴포넌트 */}
       <div className="movie-reviews-wrapper">
         <h2 className="mb-4 text-xl font-bold">📣 관람평</h2>
-        <Reviews reviews={reviews || []} />
+        <Reviews />
       </div>
       <TopButton />
     </div>
