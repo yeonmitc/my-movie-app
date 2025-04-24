@@ -15,11 +15,10 @@ const fetchMovies = async (type) => {
 export const useMoviesQuery = (type) => {
   const queryClient = useQueryClient();
 
-
   return useQuery({
     queryKey: ['movies', type],
     queryFn: () => fetchMovies(type),
-    initialData: () => queryClient.getQueryData(['movies', 'popular']),
+    initialData: () => queryClient.getQueryData(['movies', type]),
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 10,
     refetchOnWindowFocus: false,

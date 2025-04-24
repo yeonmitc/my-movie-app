@@ -4,7 +4,7 @@ import './MovieCard.style.css';
 import { useGenreStore } from '@/store/genreStore';
 import { useNavigate } from 'react-router-dom';
 import MoviePoster from '../MoviePoster';
-
+import Star from '@/common/components/Star';
 
 const MovieCard = ({ movie }) => {
   const navigate = useNavigate();
@@ -27,15 +27,15 @@ const MovieCard = ({ movie }) => {
         className="age-icon absolute top-1 right-1 z-30 h-6 w-6 md:h-8 md:w-8"
       />
 
-<MoviePoster
-  posterPath={movie?.poster_path}
-  alt={movie?.title}
-/>
+      <MoviePoster posterPath={movie?.poster_path} alt={movie?.title} />
 
       <div className="movie-overlay">
         <div className="movie-title">{title}</div>
-        <div className="movie-rating">⭐ {rating.toFixed(1)}</div>
-
+        {/* <div className="movie-rating">⭐ {rating.toFixed(1)}</div> */}
+        <div className="movie-rating flex items-center gap-1">
+          <Star w="w-4" h="h-4" readonly={true} rate={rating} />
+          <span className="text-xs text-white">{rating.toFixed(1)}</span>
+        </div>
         {movie.genre_ids?.length > 0 && (
           <div className="genre-badges">
             {movie.genre_ids.map((id) => (

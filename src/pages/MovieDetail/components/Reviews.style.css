@@ -21,4 +21,8 @@
   .no-review-msg {
     @apply py-6 text-center text-[var(--color-text-2)];
   }
+
+  .review-rating {
+    @apply flex items-center gap-1 text-yellow-400;
+  }
 }
