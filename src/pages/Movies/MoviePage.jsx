@@ -29,8 +29,6 @@ export default function MoviePage() {
   });
   const searchQ = useSearchMovieInfinite(query, isSearch); // 검색 쿼리
 
-  const discoverResults = discoverQ?.data?.pages?.flatMap((p) => p.results) || [];
-
   const pages = (() => {
     if (isSearch) return searchQ.data?.pages?.flatMap((p) => p.results) || [];
     if (discoverQ?.data?.pages) return discoverQ.data.pages.flatMap((p) => p.results);
@@ -74,14 +72,18 @@ export default function MoviePage() {
   }, [page, totalPages]);
 
   useEffect(() => {
-    if (!isSearch && discoverQ?.hasNextPage && current.length < page * pageSize) {
-      discoverQ?.fetchNextPage();
+    const isLastPage = !discoverQ?.hasNextPage;
+    const isFull = current.length >= page * pageSize;
+  
+    if (!isSearch && !isLastPage && !isFull) {
+      discoverQ.fetchNextPage();
     }
   
-    if (isSearch && searchQ?.hasNextPage && current.length < page * pageSize) {
-      searchQ?.fetchNextPage();
+    if (isSearch && searchQ?.hasNextPage && !isFull) {
+      searchQ.fetchNextPage();
     }
   }, [page, pageSize, current.length, isSearch, discoverQ, searchQ]);
+  
   const updateParams = (updates) => {
     const np = new URLSearchParams(params);
     Object.entries(updates).forEach(([k, v]) => {
