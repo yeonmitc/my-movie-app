@@ -15,7 +15,6 @@ const Review = ({ author, content, rating }) => {
   const isLong = content.length > MAX_LENGTH;
   const displayedContent = isExpanded ? content : content.slice(0, MAX_LENGTH);
   const safeContent = DOMPurify.sanitize(displayedContent);
-
   return (
     <div className="review-card">
       <div className="review-author">✍️ {author}</div>
@@ -43,6 +42,7 @@ const Reviews = () => {
   const { id } = useParams();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useMovieReviewsInfiniteQuery(id);
   const reviews = data?.pages.flatMap((page) => page.results) || [];
+  const [isScrollDone, setIsScrollDone] = useState(false);
 
   const scrollBoxRef = useRef(null);
   const sentinelRef = useRef(null);
@@ -54,26 +54,33 @@ const Reviews = () => {
   }, []);
 
   useEffect(() => {
-    const container = scrollBoxRef.current;
-    const sentinel = sentinelRef.current;
-
-    if (!container || !sentinel) return;
-    if (reviews.length === 0) return;
+    if (!scrollBoxRef.current || !sentinelRef.current) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        //console.log('[DEBUG] entry.isIntersecting:', entry.isIntersecting);
-        if (entry.isIntersecting) {
-          //  console.log('📍 Intersection detected');
-          hasNextPage ? fetchNextPage() : showNoMoreReviewsToast();
-        }
+        setIsScrollDone(entry.isIntersecting); // ✅ 스크롤이 끝에 닿았을 때만 true
       },
-      { root: container, threshold: 0.5 }
+      {
+        root: scrollBoxRef.current,
+        threshold: 0.5,
+      }
     );
 
-    observer.observe(sentinel);
+    observer.observe(sentinelRef.current);
     return () => observer.disconnect();
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage, reviews]);
+  }, []);
+
+  useEffect(() => {
+    if (!isScrollDone) return;
+
+    if (hasNextPage) {
+      fetchNextPage();
+    } else {
+      toast.custom(<CustomToast message="더 이상 리뷰가 없습니다." />, {
+        id: 'no-more-reviews',
+      });
+    }
+  }, [isScrollDone, hasNextPage, fetchNextPage]);
 
   if (reviews.length === 0) {
     return (
