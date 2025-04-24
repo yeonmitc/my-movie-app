@@ -17,7 +17,7 @@ export default function MoviePage() {
   const [sortOption, setSortOption] = useState(params.get('sort') || 'default');
   const [genreId, setGenreId] = useState(params.get('genre') || 'all');
   const [page, setPage] = useState(Number(params.get('page')) || 1);
-  const [pageSize, setPageSize] = useState(window.innerWidth < 640 ? 5 : 12);
+  const [pageSize, setPageSize] = useState(window.innerWidth < 640 ? 4 : 6);
   const { genreMap } = useGenreStore();
   const isSearch = query.length > 0; // 검색 여부
 
@@ -41,13 +41,13 @@ export default function MoviePage() {
   // 필터링 단계에서는 title만 체크
   let filtered = pages.filter((m) => m.title);
 
+  //장르필터
   if (genreId !== 'all') {
-    filtered = filtered.filter((m) => m.genre_ids.includes(Number(genreId))); // 장르 필터
+    filtered = filtered.filter(
+      (m) => Array.isArray(m.genre_ids) && m.genre_ids.includes(Number(genreId))
+    );
   }
-
-  if (isSearch && filtered.length === 0 && popularQ.data?.results?.length) {
-    filtered = popularQ.data.results; // 검색 결과 없으면 fallback
-  }
+  
 
   // 정렬은 release_date 있는 항목 기준으로
   const sorted = filtered.slice().sort((a, b) => {
@@ -60,10 +60,6 @@ export default function MoviePage() {
     }
     return 0;
   });
-
-  const totalResults = isSearch
-    ? searchQ.data?.pages[0]?.total_results || 0
-    : discoverQ.data?.pages[0]?.total_results || popularQ.data?.results?.length || 0;
 
   const totalPages = Math.max(1, Math.ceil(sorted.length / pageSize));
   const safePage = Math.min(Math.max(1, page), totalPages); // 1 이상, totalPages 이하
@@ -81,8 +77,11 @@ export default function MoviePage() {
     if (!isSearch && discoverQ?.hasNextPage && current.length < page * pageSize) {
       discoverQ?.fetchNextPage();
     }
-  }, [page, pageSize, current.length, isSearch, discoverQ]);
-
+  
+    if (isSearch && searchQ?.hasNextPage && current.length < page * pageSize) {
+      searchQ?.fetchNextPage();
+    }
+  }, [page, pageSize, current.length, isSearch, discoverQ, searchQ]);
   const updateParams = (updates) => {
     const np = new URLSearchParams(params);
     Object.entries(updates).forEach(([k, v]) => {
@@ -99,19 +98,21 @@ export default function MoviePage() {
   };
 
   // 검색 결과 없음 → fallback
-  useEffect(() => {
-    const noResult =
-      searchQ.isFetched &&
-      !searchQ.isFetchingNextPage &&
-      (searchQ.data?.pages?.[0]?.total_results === 0 || sorted.length === 0);
+  const noSearchResult =
+  isSearch &&
+  searchQ.isFetched &&
+  !searchQ.isFetchingNextPage &&
+  (searchQ.data?.pages?.[0]?.total_results === 0);
 
-    if (noResult) {
-      toast.custom(<CustomToast message="🔍 검색결과가 없어 인기영화로 돌아갑니다!" />, {
-        id: 'search-no-result',
-      });
-      reset();
-    }
-  }, [searchQ.isFetched, searchQ.isFetchingNextPage, sorted.length]);
+// 👉 fallback은 "서버 검색 결과가 아예 없을 때"만 동작해야 함
+useEffect(() => {
+  if (noSearchResult) {
+    toast.custom(<CustomToast message="🔍 검색결과가 없어 인기영화로 돌아갑니다!" />, {
+      id: 'search-no-result',
+    });
+    reset();
+  }
+}, [noSearchResult]);
 
   // 로딩 & 에러 처리
   if (
@@ -131,9 +132,9 @@ export default function MoviePage() {
     return <div className="movie-error">🚨 {err.message}</div>;
   }
 
-  console.log('🔎 discoverQ', discoverQ?.data);
-  console.log('🧮 filtered', filtered);
-  console.log('✅ sorted', sorted);
+  // console.log('🔎 discoverQ', discoverQ?.data);
+  // console.log('🧮 filtered', filtered);
+  // console.log('✅ sorted', sorted);
 
   return (
     <div className="movie-page-layout">
@@ -202,7 +203,7 @@ export default function MoviePage() {
             }}
             className="select-box mt-2"
           >
-            {[5, 10, 15].map((n) => (
+            {[1, 5, 10].map((n) => (
               <option key={n} value={n}>
                 {n}개 보기
               </option>

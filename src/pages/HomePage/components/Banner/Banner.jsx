@@ -11,8 +11,11 @@ const DEFAULT_IMAGE = '/default-banner.png';
 const Banner = () => {
     const navigate = useNavigate();
 
-  
-  const { data = [], isLoading, isError, error } = useMoviesQuery('popular');
+  const { data, isLoading, isError, error } = useMoviesQuery('popular');
+  //console.log("data", data)
+  const movies = Array.isArray(data) ? data : data?.results || [];
+  //console.log("movies" , movies)
+
   const [randomMovie, setRandomMovie] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -25,11 +28,11 @@ const Banner = () => {
   };
 
   useEffect(() => {
-    if (data.length > 0) {
-      const rand = Math.floor(Math.random() * data.length);
-      setRandomMovie(data[rand]);
+    if (movies.length > 0) {
+      const rand = Math.floor(Math.random() * movies.length);
+      setRandomMovie(movies[rand]);
     }
-  }, [data]);
+  }, [movies]);
 
   useEffect(() => {
     if (isError && error?.message) {
@@ -44,7 +47,8 @@ const Banner = () => {
       </div>
     );
   }
-  const imageUrl = randomMovie.backdrop_path
+  const imageUrl =
+  randomMovie?.backdrop_path
     ? `${IMAGE_BASE_URL}${randomMovie.backdrop_path}`
     : DEFAULT_IMAGE;
 
@@ -64,7 +68,10 @@ const Banner = () => {
           src={imageUrl}
           alt={randomMovie.title}
           onLoad={() => setImageLoaded(true)}
-          onError={(e) => (e.target.src = DEFAULT_IMAGE)}
+          onError={(e) => {
+            e.target.src = DEFAULT_IMAGE;
+            setImageLoaded(true); 
+          }}
           style={{ display: 'none' }}
         />
       )}

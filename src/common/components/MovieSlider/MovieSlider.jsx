@@ -9,7 +9,10 @@ import './MovieSlider.style.css';
 
 const MovieSlider = ({ title, type, responsive }) => {
   const { data, isLoading, isError, error } = useMoviesQuery(type);
-  const movies = data?.results || [];
+  //console.log("data", data)
+  const movies = Array.isArray(data) ? data : data?.results || [];
+  //console.log("movies" , movies)
+
 
   if (isError) {
     toast.error(`${title} 로드 중 오류: ${error.message}`);
