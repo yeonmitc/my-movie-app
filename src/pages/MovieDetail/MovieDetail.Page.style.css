@@ -65,4 +65,8 @@
   .badge-row {
     @apply flex w-[48%] min-w-[140px] flex-col items-center gap-1 text-center sm:flex-row sm:items-center sm:gap-2;
   }
+
+  .movie-reviews-wrapper {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-8;
+  }
 }

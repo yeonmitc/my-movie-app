@@ -28,7 +28,9 @@ const Reviews = ({ reviews }) => {
       <Review key={review.id} author={review.author} content={review.content} />
     ))
   ) : (
-    <div className="no-review-msg">해당 영화는 리뷰가 없습니다.</div>
+    <div className="review-card">
+      <p className="no-review-msg">해당 영화는 리뷰가 없습니다.</p>
+    </div>
   );
 };
 

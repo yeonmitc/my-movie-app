@@ -8,13 +8,16 @@ import toast from 'react-hot-toast';
 import { useMovieDetailQuery } from '@/hooks/useMovieDetail';
 import { useMovieVideosQuery } from '@/hooks/useMovieVideos';
 import MoviePoster from '@/common/components/MoviePoster';
-
+import Reviews from './components/Reviews';
+import useMovieReviewsQuery from '@/hooks/useMovieReviews';
+import TopButton from '@/common/components/TopButton';
 
 const MovieDetailPage = () => {
   const { id } = useParams();
   const { openModal } = useVideoModalStore();
   const { data: movie, isLoading, isError, error } = useMovieDetailQuery(id);
   const { data: videos } = useMovieVideosQuery(id);
+  const { data: reviews } = useMovieReviewsQuery(id);
 
   if (isLoading) {
     return (
@@ -29,17 +32,14 @@ const MovieDetailPage = () => {
     return null;
   }
 
-
-  const trailer = videos?.find(
-    (video) => video.site === 'YouTube' && video.type === 'Trailer'
-  );
+  const trailer = videos?.find((video) => video.site === 'YouTube' && video.type === 'Trailer');
 
   const handleWatchTrailer = () => {
     if (trailer?.key) {
       openModal(id);
     } else {
-      toast.error('이 영화는 아직 예고편이 없습니다. 😢',{
-        id: 'video-error', 
+      toast.error('이 영화는 아직 예고편이 없습니다. 😢', {
+        id: 'video-error',
       });
     }
   };
@@ -49,11 +49,11 @@ const MovieDetailPage = () => {
       <div className="movie-detail-wrapper">
         {/* ✅ 포스터 */}
         <div className="movie-poster-container group relative">
-        <MoviePoster
-  posterPath={movie?.poster_path}
-  alt={movie?.title}
-  className="movie-poster"
-/>
+          <MoviePoster
+            posterPath={movie?.poster_path}
+            alt={movie?.title}
+            className="movie-poster"
+          />
           <div
             className="movie-poster-overlay group-hover:opacity-100"
             onClick={handleWatchTrailer}
@@ -91,9 +91,7 @@ const MovieDetailPage = () => {
                 {movie.vote_count.toLocaleString()}
               </span>
             )}
-            <span
-              className={`rating-badge ${movie.adult ? 'bg-red-600' : 'bg-green-600'}`}
-            >
+            <span className={`rating-badge ${movie.adult ? 'bg-red-600' : 'bg-green-600'}`}>
               {movie.adult ? '18' : 'ALL'}
             </span>
           </div>
@@ -124,6 +122,12 @@ const MovieDetailPage = () => {
           </div>
         </div>
       </div>
+      {/* ✅ 리뷰 컴포넌트 */}
+      <div className="movie-reviews-wrapper">
+        <h2 className="mb-4 text-xl font-bold">📣 관람평</h2>
+        <Reviews reviews={reviews || []} />
+      </div>
+      <TopButton />
     </div>
   );
 };
