@@ -204,7 +204,7 @@ export default function MoviePage() {
             }}
             className="select-box mt-2"
           >
-            {[1, 5, 10].map((n) => (
+            {[1, 6, 9].map((n) => (
               <option key={n} value={n}>
                 {n}개 보기
               </option>
