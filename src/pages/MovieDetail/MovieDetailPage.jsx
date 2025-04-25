@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './MovieDetail.Page.style.css';
 import { useParams } from 'react-router-dom';
 import { AiFillStar } from 'react-icons/ai';
@@ -17,6 +17,9 @@ const MovieDetailPage = () => {
   const { openModal } = useVideoModalStore();
   const { data: movie, isLoading, isError, error } = useMovieDetailQuery(id);
   const { data: videos } = useMovieVideosQuery(id);
+
+  console.log('id', id);
+  console.log('videos', useMovieVideosQuery(id));
 
   if (isLoading) {
     return (

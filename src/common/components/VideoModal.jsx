@@ -8,16 +8,15 @@ import { IoClose } from 'react-icons/io5';
 const VideoModal = () => {
   const { isOpen, videoId: movieId, closeModal } = useVideoModalStore();
   const { data: videos, isLoading, isError, error } = useMovieVideosQuery(movieId);
-
-  const youtubeVideo = videos?.find(
-    (video) => video.site === 'YouTube' && video.type === 'Trailer'
-  );
+  const preferredTypes = ['Trailer', 'Teaser', 'Featurette', 'Clip'];
+  const youtubeVideo = videos?.find((v) => preferredTypes.includes(v.type) && v.site === 'YouTube');
+  console.log('🔥 youtubeVideo =', youtubeVideo);
 
   // ✅ 예고편 없을 때 토스트
   useEffect(() => {
     if (!isLoading && isOpen && videos && videos.length === 0) {
-      toast.error('이 영화는 아직 예고편이 없습니다. 😢',{
-        id: 'video-error', 
+      toast.error('이 영화는 아직 예고편이 없습니다. 😢', {
+        id: 'video-error',
       });
     }
   }, [videos, isLoading, isOpen]);

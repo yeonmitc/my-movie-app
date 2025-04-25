@@ -25,18 +25,17 @@ const MovieDetailCard = ({ movie }) => {
     poster_path,
   } = movie;
 
-
   const releaseYear = release_date ? release_date.slice(0, 4) : '개봉일 없음';
   const isAdult = movie.adult === true || movie.adult === 'true';
 
   return (
     <div className="movie-detail-card group" onClick={handleClick}>
       <div className="image-wrapper">
-      <MoviePoster
-  posterPath={movie?.poster_path}
-  alt={movie?.title}
-  className="movie-detail-image"
-/>
+        <MoviePoster
+          posterPath={movie?.poster_path}
+          alt={movie?.title}
+          className="movie-detail-image"
+        />
 
         <img
           src={isAdult ? '/adult.png' : '/all.png'}

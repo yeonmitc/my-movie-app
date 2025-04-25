@@ -2,7 +2,11 @@ import { useQuery } from '@tanstack/react-query';
 import api from '@/utils/api';
 
 const fetchMovieVideos = async (movieId) => {
-  const res = await api.get(`/movie/${movieId}/videos`);
+  const res = await api.get(`/movie/${movieId}/videos`, {
+    params: {
+      language: 'en-US',
+    },
+  });
   return res.data.results;
 };
 
